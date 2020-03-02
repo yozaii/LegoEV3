@@ -80,5 +80,19 @@ public class Robot {
 		pinces.Close();
 	}
 	
+	/*Methode followline avec un string couleur en argument.
+	 Le Robot suit cette couleur tant que le capteur tactile n'est pas touche*/
+	public void FollowLine(String followcollor) {
+		do {
+			this.color.colorScan(); //Prise de couleur
+			this.roues.arcRight();	//Mouvement en avant avec une petite courbe a droite
+			if (this.color.getCouleurCourant() != followcollor) {	//Si le robot sort de la couleur en argument
+				this.roues.arcLeft();	//Mouvement en avant avec une petite courbe a gauche
+			}
+		}
+		while(!this.touch.isPressed());	//Tant que le capteur tactile n'est pas touche
+		this.roues.Stop();
+	}
+	
 	
 }
