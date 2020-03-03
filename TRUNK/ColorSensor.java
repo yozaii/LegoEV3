@@ -43,9 +43,9 @@ public class ColorSensor {
 	public String colorRenvoi() {
 		String color = null;
 		// chaque if permettra d'identifier une couleur si les valeurs RGB sont entre le minimum et le maximum de Rouge Vert et Bleu renvoyé (cf. tableau calibrage)
-		if(colorSample[0]>=0.146 && colorSample[0]<=0.170 && colorSample[1]>=0.054 && colorSample[1]<=0.063 && colorSample[2]>=0.31 && colorSample[2]<=0.274) {
+		if(colorSample[0]>=0.146 && colorSample[0]<=0.170 && colorSample[1]>=0.054 && colorSample[1]<=0.063 && colorSample[2]>=0.023 && colorSample[2]<=0.03) {
 			color = "RED";
-		}
+		}		}
 		else if (colorSample[0]>=0.063 && colorSample[0]<=0.072 && colorSample[1]>=0.204 && colorSample[1]<=0.225 && colorSample[2]>=0.041 && colorSample[2]<=0.051) {
 			color = "GREEN";
 		}
