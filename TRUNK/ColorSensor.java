@@ -5,34 +5,44 @@ import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.SampleProvider;
-import lejos.utility.Delay;
 
 public class ColorSensor {
 	
 	EV3ColorSensor colorSensor;
 	SampleProvider colorProvider;
-	float[] colorSample; //tableau qui permettra de recuperer 3 valeur RGB
+	float[] colorSample;
+	String couleurCourant; //Hier
 	
 	public ColorSensor () {
-		Port s2 = LocalEV3.get().getPort("S2"); // le capteur de couleur est branché au port 2
+		Port s2 = LocalEV3.get().getPort("S2");
 		colorSensor = new EV3ColorSensor(s2);
-		colorProvider = colorSensor.getRGBMode();// le capteur est en mode RGB
-		colorSample = new float[colorProvider.sampleSize()]; //colorSample est un tableau de taille 3 (la taille de l'echantillion)
+		colorProvider = colorSensor.getRGBMode();
+		colorSample = new float[colorProvider.sampleSize()];
+		couleurCourant = null; //Hier
+	
+	}
+	
+	public void ColorTesting() {
 		
-		while(Button.ESCAPE.isUp()) { // tant que le bouton escape n'est pas touché prendre un échantillion grace colorProvider et rentrer les valeurs dans colorSample.
+		while(Button.ESCAPE.isUp()) {
 			colorProvider.fetchSample(colorSample, 0);
 			System.out.println("R" + colorSample[0]);
 			System.out.println("G" + colorSample[1]);
 			System.out.println("B" + colorSample[2]);
-			Delay.msDelay(250);
+			Button.waitForAnyPress();
 		}
 		
 		colorSensor.close();
 	}
 	
+	public float[] echantillion() {
+		colorProvider.fetchSample(colorSample, 0);
+		return colorSample;
+	}
+	
 	public String colorRenvoi() {
 		String color = null;
-		// chaque if permettra d'identifier une couleur si les valeurs RGB sont entre le minimum et le maximum de Rouge Vert et Bleu renvoyé (cf. tableau calibrage) les valeurs ont été prises sur la table (entre 5 et 10 par couleur)
+		// chaque if permettra d'identifier une couleur si les valeurs RGB sont entre le minimum et le maximum de Rouge Vert et Bleu renvoyé (cf. tableau calibrage)
 		if(colorSample[0]>=0.146 && colorSample[0]<=0.170 && colorSample[1]>=0.054 && colorSample[1]<=0.063 && colorSample[2]>=0.31 && colorSample[2]<=0.274) {
 			color = "RED";
 		}
@@ -58,7 +68,17 @@ public class ColorSensor {
 		System.out.println(color);
 		return color; 
 	}
+	
+	//Hier
+	/*Méthode colorScan qui renvoie le String coulerCourant, qui est le couleur en dessous du
+	robot au moment d'appel du fonction */
+	public void colorScan() {
+		this.echantillion();
+		couleurCourant = this.colorRenvoi();
+	}
+	
+	//Hier
+	public String getCouleurCourant() {
+		return couleurCourant;
+	}
 }
-	
-		
-	

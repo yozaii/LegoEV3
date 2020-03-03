@@ -80,6 +80,14 @@ public class Robot {
 		pinces.Close();
 	}
 	
+	public void Deposer() { //Methode deposer. Le robot ouvre ses pinces, recule et puis tourne 180 degres.
+		this.roues.Stop();
+		this.pinces.Open();
+		this.roues.MoveBackward();
+		Delay.msDelay(500);
+		this.roues.RotateClockwise180();
+	}
+	
 	/*Methode followline avec un string couleur en argument.
 	 Le Robot suit cette couleur tant que le capteur tactile n'est pas touche*/
 	public void FollowLine(String followcollor) {
