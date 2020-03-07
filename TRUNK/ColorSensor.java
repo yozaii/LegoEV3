@@ -46,7 +46,7 @@ public class ColorSensor {
 		if(colorSample[0]>=0.1 && colorSample[0]<=0.190 && colorSample[1]>=0.03 && colorSample[1]<=0.1 && colorSample[2]>=0.01 && colorSample[2]<=0.06) {
 			color = "RED";
 		}
-		else if (colorSample[0]>=0.04 && colorSample[0]<=0.08 && colorSample[1]>=0.204 && colorSample[1]<=0.25 && colorSample[2]>=0.03 && colorSample[2]<=0.07) {
+		else if (colorSample[0]>=0.02 && colorSample[0]<=0.1 && colorSample[1]>=0.200 && colorSample[1]<=0.25 && colorSample[2]>=0.01 && colorSample[2]<=0.09) {
 			color = "GREEN";
 		}
 		else if (colorSample[0]>=0.020 && colorSample[0]<=0.060 && colorSample[1]>=0.160 && colorSample[1]<=0.220 && colorSample[2]>=0.1 && colorSample[2]<=0.15) {

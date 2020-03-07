@@ -10,6 +10,7 @@ public class Robot {
 	private TouchSensor touch;
 	private ColorSensor color;
 	private StockInfo info;
+	private Ultrason ultrason;
 	
 	public Robot () {
 		this.roues = new Movement();
@@ -18,6 +19,7 @@ public class Robot {
 		this.info = new StockInfo();
 		Port s1 = LocalEV3.get().getPort("S1");
 		this.touch = new TouchSensor(s1);
+		this.ultrason = new Ultrason();
 	}
 	
 	/*Méthode getRoues qui retourne l'objet des roues afin de pouvoir utiliser
@@ -48,6 +50,12 @@ public class Robot {
 	ses méthodes dans une fonction main comme l'attribut info est privé */
 	public StockInfo getInfo() {
 		return this.info;
+	}
+	
+	/*Méthode getUltrason qui retourne l'objet de Ultrason afin de pouvoir utiliser
+	ses méthodes dans une fonction main comme l'attribut info est privé */
+	public Ultrason getUltrason() {
+		return this.ultrason;
 	}
 	
 	/*Une méthode ToucherDeux booléenne qui renvoie vrai si le capteur tactile
