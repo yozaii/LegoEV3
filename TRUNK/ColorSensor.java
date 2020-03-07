@@ -43,22 +43,22 @@ public class ColorSensor {
 	public String colorRenvoi() {
 		String color = null;
 		// chaque if permettra d'identifier une couleur si les valeurs RGB sont entre le minimum et le maximum de Rouge Vert et Bleu renvoyé (cf. tableau calibrage)
-		if(colorSample[0]>=0.146 && colorSample[0]<=0.170 && colorSample[1]>=0.054 && colorSample[1]<=0.063 && colorSample[2]>=0.023 && colorSample[2]<=0.03) {
+		if(colorSample[0]>=0.1 && colorSample[0]<=0.190 && colorSample[1]>=0.03 && colorSample[1]<=0.1 && colorSample[2]>=0.01 && colorSample[2]<=0.06) {
 			color = "RED";
-		}		}
-		else if (colorSample[0]>=0.063 && colorSample[0]<=0.072 && colorSample[1]>=0.204 && colorSample[1]<=0.225 && colorSample[2]>=0.041 && colorSample[2]<=0.051) {
+		}
+		else if (colorSample[0]>=0.04 && colorSample[0]<=0.08 && colorSample[1]>=0.204 && colorSample[1]<=0.25 && colorSample[2]>=0.03 && colorSample[2]<=0.07) {
 			color = "GREEN";
 		}
-		else if (colorSample[0]>=0.042 && colorSample[0]<=0.047 && colorSample[1]>=0.184 && colorSample[1]<=0.209 && colorSample[2]>=0.113 && colorSample[2]<=0.144) {
+		else if (colorSample[0]>=0.020 && colorSample[0]<=0.060 && colorSample[1]>=0.160 && colorSample[1]<=0.220 && colorSample[2]>=0.1 && colorSample[2]<=0.15) {
 			color = "BLUE";
 		}
-		else if (colorSample[0]>=0.222 && colorSample[0]<=0.258 && colorSample[1]>=0.321 && colorSample[1]<=0.373 && colorSample[2]>=0.051 && colorSample[2]<=0.06) {
+		else if (colorSample[0]>=0.160 && colorSample[0]<=0.290 && colorSample[1]>=0.290 && colorSample[1]<=0.38 && colorSample[2]>=0.03 && colorSample[2]<=0.08) {
 			color = "YELLOW";
 		}
-		else if (colorSample[0]>=0.013 && colorSample[0]<=0.032 && colorSample[1]>=0.017 && colorSample[1]<=0.061 && colorSample[2]>=0.006 && colorSample[2]<=0.229) {
+		else if (colorSample[0]>=0.01 && colorSample[0]<=0.04 && colorSample[1]>=0.01 && colorSample[1]<=0.07 && colorSample[2]>=0.006 && colorSample[2]<=0.24) {
 			color = "BLACK";
 		}
-		else if(colorSample[0]>=0.219 && colorSample[0]<=0.294 && colorSample[1]>=0.333 && colorSample[1]<=0.463 && colorSample[2]>=0.162 && colorSample[2]<=0.241) {
+		else if(colorSample[0]>=0.180 && colorSample[0]<=0.330 && colorSample[1]>=0.260 && colorSample[1]<=0.480 && colorSample[2]>=0.120 && colorSample[2]<=0.280) {
 			color = "WHITE";
 		}
 		else if(colorSample[0]>=0.113 && colorSample[0]<=0.131 && colorSample[1]>=0.175 && colorSample[1]<=0.195 && colorSample[2]>=0.087 && colorSample[2]<=0.1) {
