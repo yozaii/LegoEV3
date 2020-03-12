@@ -22,38 +22,27 @@ public class Robot {
 		this.ultrason = new Ultrason();
 	}
 	
-	/*Méthode getRoues qui retourne l'objet des roues afin de pouvoir utiliser
-	ses méthodes dans une fonction main comme l'attribut roues est privé */
+	//Getters des objets definis dans les attributs
 	public Movement getRoues() { 
 		return this.roues;		
 	}
 	
-	/*Méthode getPinces qui retourne l'objet des pinces afin de pouvoir utiliser
-	ses méthodes dans une fonction main comme l'attribut pinces est privé */
 	public Pinces getPinces() {
 		return this.pinces;	
 	}
 	
-	/*Méthode getTouch qui retourne l'objet de capteur tactile afin de pouvoir utiliser
-	ses méthodes dans une fonction main comme l'attribut touch est privé */
 	public TouchSensor getTouch() {
 		return this.touch;
 	}
 	
-	/*Méthode getColor qui retourne l'objet de capteur couleur afin de pouvoir utiliser
-	ses méthodes dans une fonction main comme l'attribut colorsen est privé */
 	public ColorSensor getColor() {
 		return this.color;
 	}
 	
-	/*Méthode getInfo qui retourne l'objet de StockInfo afin de pouvoir utiliser
-	ses méthodes dans une fonction main comme l'attribut info est privé */
 	public StockInfo getInfo() {
 		return this.info;
 	}
 	
-	/*Méthode getUltrason qui retourne l'objet de Ultrason afin de pouvoir utiliser
-	ses méthodes dans une fonction main comme l'attribut info est privé */
 	public Ultrason getUltrason() {
 		return this.ultrason;
 	}
@@ -93,7 +82,7 @@ public class Robot {
 		this.pinces.Open();
 		this.roues.MoveBackward();
 		Delay.msDelay(500);
-		this.roues.RotateClockwise180();
+		this.roues.RotateD("Right",180);
 	}
 	
 	/*Methode followline avec un string couleur en argument.
@@ -101,9 +90,9 @@ public class Robot {
 	public void FollowLine(String followcollor) {
 		do {
 			this.color.colorScan(); //Prise de couleur
-			this.roues.arcRight();	//Mouvement en avant avec une petite courbe a droite
+			this.roues.arcDirection("Right");	//Mouvement en avant avec une petite courbe a droite
 			if (this.color.getCouleurCourant() != followcollor) {	//Si le robot sort de la couleur en argument
-				this.roues.arcLeft();	//Mouvement en avant avec une petite courbe a gauche
+				this.roues.arcDirection("Left");	//Mouvement en avant avec une petite courbe a gauche
 			}
 		}
 		while(!this.touch.isPressed());	//Tant que le capteur tactile n'est pas touche
