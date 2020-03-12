@@ -28,11 +28,3 @@ public class StockInfo {
 	}
 
 }
-package real;
-
-public class StockInfo {
-	
-	
-
-}
-
