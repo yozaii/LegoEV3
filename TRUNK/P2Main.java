@@ -4,114 +4,119 @@ import lejos.hardware.port.Port;
 import lejos.utility.Delay;
 
 
-public class main {
+public class TestScenarioP2 {
 	 
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Robot robot = new Robot();
 		System.out.println("Press any button");
 		Button.waitForAnyPress();
 
-		while (!(robot.getTouch().isPressed())) {
-		
-		while (robot.getColor().colorRenvoi()!= "GREEN" || robot.getColor().colorRenvoi() != "BLUE") {
+		while (!(robot.ToucherDeux()) && Button.ESCAPE.isUp()) {
 			robot.getRoues().MoveForward();
-		}
-		
-		if(robot.getColor().couleurCourant="GREEN") {
-			robot.getRoues().RotateClockwise90();
-	
-			while  ( true/*||Ultrason<une certaine distanece*/){     // tant que le capteur ultrason ne capte pas de mur suit la ligne verte
-			
-				robot.FollowLine("GREEN");
-			}
-		
-				robot.getRoues().RotateCounterClockwise180(); // sinon on fait demi tour pour parcourir le reste de la ligne verte
-		
-			
-			while  (true)//||Ultrason<une certaine distance*/){    // tant que le capteur de touché n'est pas activé et qu'il n'y a pas de mur, on suit la ligne verte dans l'autre sens
-				robot.FollowLine("GREEN");
-			}
-
-				robot.getRoues().RotateClockwise90(); // sinon on fait un quart de tour pour rejoindre la ligne noire 
-			
-			
 			do {
-				robot.getRoues().MoveForward();// on avance tant qu'on ne croise pas la ligne noire
-			}while (robot.getColor().couleurCourant()!="BLACK");
+				robot.getColor().colorScan();
+			}
+			while (!(robot.ToucherDeux()) && (robot.getColor().getCouleurCourant()!= "GREEN" || robot.getColor().getCouleurCourant() != "BLUE"));
+			if(robot.getColor().getCouleurCourant()=="GREEN") {
+				robot.RotateUntilLine("GREEN", "Right");
+		
+				while  ( !(robot.ToucherDeux()) && (!(robot.getUltrason().DistanceLimit(0.1f)))){     // tant que le capteur ultrason ne capte pas de mur suit la ligne verte
+					robot.FollowLine("GREEN");
+				}
+			
+					robot.getRoues().RotateD("Left", 180); // sinon on fait demi tour pour parcourir le reste de la ligne verte
+			
 				
-			robot.getRoues().RotateClockwise90();
-			
-			while  (!(robot.getTouch().isPressed()) /*||Ultrason<une certaine distance*/){   // tant que le capteur de touché n'est pas activé et qu'il n'y a pas de mur, on suit la ligne verte dans l'autre sens
-				robot.FollowLine("BLACK");
-			}
-			
-			robot.getRoues().RotateCounterClockwise90(); // sinon on fait demi tour pour parcourir le reste de la ligne Bleue
-			
-			do {
-				robot.getRoues().MoveForward();// on avance tant qu'on ne croise pas la ligne bleue
-			}while (robot.getColor().colorRenvoi()!="BLUE");
-			
-			robot.getRoues().RotateCounterClockwise90(); // sinon on fait demi tour pour parcourir le reste de la ligne Bleue
-
-			
-	}
-		
-		else  if (robot.couleurCourant()="BLUE") {
-			
-			robot.getRoues().RotateCounterClockwise90();
-			
-			while  ( true/*||Ultrason<une certaine distanece*/){     // tant que le capteur ultrason ne capte pas de mur suit la ligne verte
-			
-				robot.FollowLine("BLUE");
-			}
-		}	
-				robot.getRoues().RotateClockwise180(); // sinon on fait demi tour pour parcourir le reste de la ligne verte
-		
-			
-			while  (true)//||Ultrason<une certaine distance*/){    // tant que le capteur de touché n'est pas activé et qu'il n'y a pas de mur, on suit la ligne verte dans l'autre sens
-				robot.FollowLine("BLUE");
-			}
-
-				robot.getRoues().RotateCounterClockwise90(); // sinon on fait un quart de tour pour rejoindre la ligne noire 
-			
-			
-			do {
-				robot.getRoues().MoveForward();// on avance tant qu'on ne croise pas la ligne noire
-			}while (robot.getColor().colorRenvoi()!="BLACK");
+				while  (!(robot.ToucherDeux()) && (!(robot.getUltrason().DistanceLimit(0.1f))))//||Ultrason<une certaine distance*/){    // tant que le capteur de touché n'est pas activé et qu'il n'y a pas de mur, on suit la ligne verte dans l'autre sens
+					robot.FollowLine("GREEN");
 				
-			robot.getRoues().RotateCounterClockwise90();
-			
-			while  (!(robot.getTouch().isPressed()) /*||Ultrason<une certaine distance*/){   // tant que le capteur de touché n'est pas activé et qu'il n'y a pas de mur, on suit la ligne verte dans l'autre sens
-				robot.FollowLine("BLACK");
-			}
-			
-			robot.getRoues().RotateClockwise90(); // sinon on fait demi tour pour parcourir le reste de la ligne Bleue
-			
-			do {
-				robot.getRoues().MoveForward();// on avance tant qu'on ne croise pas la ligne bleue
-			}while (robot.couleurCourant().colorRenvoi()!="GREEN");
-			
-			robot.getRoues().RotateClockwise90(); // sinon on fait demi tour pour parcourir le reste de la ligne Bleue
-			
-			}
 	
-	
-		if ((robot.getTouch().isPressed())){// si le capteur de touché est activé, on atrape le palet et on l'amene vers la ligne blanche
-			robot.Attrape();
-			robot.getRoues().RotateClockwise90();
-			while(robot.couleurCourant().colorRenvoi()!="WHITE") {
+					robot.getRoues().RotateD("Right", 90); // sinon on fait un quart de tour pour rejoindre la ligne noire 
+/* ****** */
 				robot.getRoues().MoveForward();
+				do {
+					robot.getColor().colorScan();
+				}
+				while (!(robot.ToucherDeux()) && (robot.getColor().getCouleurCourant()!= "BLACK" || robot.getColor().getCouleurCourant() != "BLUE"));
+				if(robot.getColor().getCouleurCourant()=="BLACK") {
+					robot.RotateUntilLine("BLACK", "Right");
+			
+					while  ( !(robot.ToucherDeux()) && (!(robot.getUltrason().DistanceLimit(0.1f)))){     // tant que le capteur ultrason ne capte pas de mur suit la ligne verte
+						robot.FollowLine("BLACK");
+					}
+				
+						robot.getRoues().RotateD("Left", 180); // sinon on fait demi tour pour parcourir le reste de la ligne verte
+				
+					
+					while  (!(robot.ToucherDeux()) && (!(robot.getUltrason().DistanceLimit(0.1f))))//||Ultrason<une certaine distance*/){    // tant que le capteur de touché n'est pas activé et qu'il n'y a pas de mur, on suit la ligne verte dans l'autre sens
+						robot.FollowLine("GREEN");
+					}
 		
-		// apprès le while touch is pressed
-		while(robot.getColor().colorRenvoi()!="WHITE") {
-			robot.getRoues().MoveForward();
-		}
-		robot.Deposer();// on depose le palet derriere la ligne blanche et on fait demi-tour
-		robot.getRoues().RotateCounterClockwise180();
-	}
+						robot.getRoues().RotateD("Right", 90); // sinon on fait un quart de tour pour rejoindre la ligne noire 
+	/* ****** */
+				do {
+					robot.getRoues().MoveForward();
+					robot.getColor().colorScan();// on avance tant qu'on ne croise pas la ligne bleue
+				}while (!(robot.ToucherDeux()) && (robot.getColor().getCouleurCourant()!="BLUE"));
+				
+				robot.RotateUntilLine("BLUE", "Left"); // sinon on fait demi tour pour parcourir le reste de la ligne Bleue
 	
-}
-}
+				
+			}
+/////////
+////////
+		else if (robot.getColor().couleurCourant=="BLUE") {
+			
+			robot.RotateUntilLine("BLUE","Left");
+			
+			while  (!(robot.ToucherDeux()) && (  !(robot.getUltrason().DistanceLimit(0.1f))/*||Ultrason<une certaine distanece*/)){     // tant que le capteur ultrason ne capte pas de mur suit la ligne verte
+			
+				robot.FollowLine("BLUE");
+			}
+			
+				robot.getRoues().RotateD("Right", 180);; // sinon on fait demi tour pour parcourir le reste de la ligne verte
+		
+			
+			while  (!(robot.ToucherDeux()) && ( !(robot.getUltrason().DistanceLimit(0.1f))))//||Ultrason<une certaine distance*/){    // tant que le capteur de touché n'est pas activé et qu'il n'y a pas de mur, on suit la ligne verte dans l'autre sens
+				robot.FollowLine("BLUE");
+			}
 
+				robot.getRoues().RotateD("Left", 90);; // sinon on fait un quart de tour pour rejoindre la ligne noire 
+			
+			
+			do {
+				robot.getRoues().MoveForward();// on avance tant qu'on ne croise pas la ligne noire
+				robot.getColor().colorScan();
+			}while (!(robot.ToucherDeux()) && (robot.getColor().getCouleurCourant()!="BLACK"));
+				
+			robot.RotateUntilLine("BLACK", "Left");
+			
+			while  ( !(robot.ToucherDeux()) && (!(robot.getUltrason().DistanceLimit(0.1f))) /*||Ultrason<une certaine distance*/) {   // tant que le capteur de touché n'est pas activé et qu'il n'y a pas de mur, on suit la ligne verte dans l'autre sens
+				robot.FollowLine("BLACK");
+			}
+			
+			robot.getRoues().RotateD("Right", 90); // sinon on fait demi tour pour parcourir le reste de la ligne Bleue
+			
+			do {
+				robot.getRoues().MoveForward();// on avance tant qu'on ne croise pas la ligne bleue
+				robot.getColor().colorScan();
+			}while (!(robot.ToucherDeux()) && (robot.getColor().getCouleurCourant()!="GREEN"));
+			
+			robot.RotateUntilLine("GREEN", "Right");; // sinon on fait demi tour pour parcourir le reste de la ligne Bleue
+			robot.FollowLine("GREEN");
+			
+		}
+			
+	
+	
+		// si le capteur de touché est activé, on atrape le palet et on l'amene vers la ligne blanche
+			robot.Attrape();
+			robot.getRoues().RotateToZero();
+			robot.getRoues().MoveForward();
+			do {
+				robot.getColor().colorScan();
+			}
+			while(robot.getColor().getCouleurCourant()!="WHITE");}}
+
+		// après le while touch is pressed
