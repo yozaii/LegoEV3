@@ -7,12 +7,14 @@ public class Movement {
 	
 	private EV3LargeRegulatedMotor lMotor ; //Declaration d'une variable EV3RegulatedMotor lMotor (left motor)
 	private EV3LargeRegulatedMotor rMotor ;//Declaration d'une variable EV3RegulatedMotor lMotor (left motor)
+	int orrien;
 	
 	public Movement() {
 		lMotor = new EV3LargeRegulatedMotor (MotorPort.A); //lMotor controle désormais le motor connecté au PortA
 		rMotor = new EV3LargeRegulatedMotor (MotorPort.B); //rMotor controle désormais le motor connecté au PortB
 		lMotor.synchronizeWith(new EV3LargeRegulatedMotor[] {rMotor});/* lMotor est synchronisé avec rMotor lors d'appels
 																		des méthodes startSynchronization et endSynchronization*/
+		orrien = 0;
 	}
 	
 	//Méthode de mouvement en avant
@@ -82,10 +84,12 @@ public class Movement {
 		lMotor.startSynchronization();
 		if (deg==90) {	//Les rotations de 90 degres
 			if (Direction=="Left") {	//Dans le sens contraire de l'aiguille
+				this.setOrrien(-90);
 				lMotor.rotate(-200);
 				rMotor.rotate(200);
 			}
 			else if (Direction=="Right") {	//Dans le sens de l'aigulle
+				this.setOrrien(90);
 				lMotor.rotate(200);
 				rMotor.rotate(-200);
 			}
@@ -96,10 +100,12 @@ public class Movement {
 		}
 		else if (deg==180) {	//Les rotations de 180 degres
 			if (Direction=="Left") {	//Dans le sens contraire de l'aiguille
+				this.setOrrien(180);
 				lMotor.rotate(-400);
 				rMotor.rotate(400);
 			}
 			else if (Direction=="Right") {	//Dans le sens de l'aigulle
+				this.setOrrien(180);
 				lMotor.rotate(400);
 				rMotor.rotate(-400);
 			}
@@ -120,14 +126,14 @@ public class Movement {
 	public void arcDirection(String Direction) {
 		lMotor.startSynchronization();
 		if (Direction == "Left") {	//Courbe a gauche
-			lMotor.setSpeed(320f);
-			rMotor.setSpeed(400f);
+			lMotor.setSpeed(200f);
+			rMotor.setSpeed(320f);
 			lMotor.forward();
 			rMotor.forward();
 		}
 		else if (Direction =="Right") { //Courbe a droite
-			lMotor.setSpeed(400f);
-			rMotor.setSpeed(320f);
+			lMotor.setSpeed(320f);
+			rMotor.setSpeed(250f);
 			lMotor.forward();
 			rMotor.forward();
 		}
@@ -137,5 +143,24 @@ public class Movement {
 		lMotor.endSynchronization();
 	}
 	
-
+	public void setOrrien(int x) {
+        orrien+=x;
+        if(orrien>=360) {
+       	 orrien-=360;
+        }
+        else if (orrien<0) {
+       	 orrien+=360;
+        }
+	}
+	
+	public int getOrrien(){
+        return orrien;
+	}
+	
+	public void RotateToZero(){
+		if (this.getOrrien() == 90) this.RotateD("Left", 90);
+		else if (this.getOrrien()==180) this.RotateD("Right", 180);
+		else if (this.getOrrien()==270) this.RotateD("Right", 180);
+	}
+	
 }
