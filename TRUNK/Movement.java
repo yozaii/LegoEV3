@@ -8,6 +8,7 @@ public class Movement {
 	private EV3LargeRegulatedMotor lMotor ; //Declaration d'une variable EV3RegulatedMotor lMotor (left motor)
 	private EV3LargeRegulatedMotor rMotor ;//Declaration d'une variable EV3RegulatedMotor lMotor (left motor)
 	int orrien;
+	int vitesse;
 	
 	public Movement() {
 		lMotor = new EV3LargeRegulatedMotor (MotorPort.A); //lMotor controle désormais le motor connecté au PortA
@@ -36,6 +37,17 @@ public class Movement {
 		lMotor.forward();	//movement de lMotor en avant
 		rMotor.forward();
 		lMotor.endSynchronization();
+	}
+	
+	//Methode de mouvement en avant avec argument deg = le nombre de degre de rotation de chaque roue
+	public void MoveForwardDeg(int deg) {
+		lMotor.startSynchronization();
+		lMotor.rotate(deg);
+		rMotor.rotate(deg);
+		lMotor.endSynchronization();
+		lMotor.waitComplete();
+		rMotor.waitComplete();
+		
 	}
 	
 	//Methode de mouvement vers l'arriere
@@ -124,16 +136,17 @@ public class Movement {
 	
 	//Methode pour mouvement en courbe a droite a gauche. Prend la direction desire en argument
 	public void arcDirection(String Direction) {
+		float dps=213;
 		lMotor.startSynchronization();
 		if (Direction == "Left") {	//Courbe a gauche
-			lMotor.setSpeed(200f);
-			rMotor.setSpeed(320f);
+			lMotor.setSpeed(dps*0.8f);
+			rMotor.setSpeed(dps);
 			lMotor.forward();
 			rMotor.forward();
 		}
 		else if (Direction =="Right") { //Courbe a droite
-			lMotor.setSpeed(320f);
-			rMotor.setSpeed(250f);
+			lMotor.setSpeed(dps);
+			rMotor.setSpeed(dps*0.8f);
 			lMotor.forward();
 			rMotor.forward();
 		}
@@ -160,7 +173,7 @@ public class Movement {
 	public void RotateToZero(){
 		if (this.getOrrien() == 90) this.RotateD("Left", 90);
 		else if (this.getOrrien()==180) this.RotateD("Right", 180);
-		else if (this.getOrrien()==270) this.RotateD("Right", 180);
+		else if (this.getOrrien()==270) this.RotateD("Right", 90);
 	}
 	
 }
