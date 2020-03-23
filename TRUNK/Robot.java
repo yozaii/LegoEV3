@@ -126,6 +126,50 @@ public class Robot {
 		while(!this.ToucherDeux() && (!(this.getUltrason().DistanceLimit(0.1f))));	//Tant que le capteur tactile n'est pas touche
 		this.roues.Stop();
 	}
+
+	public void rejoindreLigne(String couleur, String sens) {// permet de rejoindre une ligne d'une certaine couleur, s'il y a une palet le robot l'attrape sinon de tourner sur la ligne
+		do {
+			this.getRoues().MoveForward();
+			this.getColor().colorScan();
+		}
+		while (!(this.ToucherDeux()) && (this.getColor().getCouleurCourant()!= couleur) || Button.ESCAPE.isDown() );
+		
+		if(this.ToucherDeux()) {
+			this.Attrape();
+			this.getRoues().RotateToZero();
+			this.getRoues().MoveForward();
+			do {
+				this.getColor().colorScan();
+			}
+			while(this.getColor().getCouleurCourant()!="WHITE");
+		}
+		
+		else if (Button.ESCAPE.isDown()) {
+			this.getRoues().Stop();
+		}
+		
+		else if(this.getColor().getCouleurCourant()== couleur) {
+			roues.RotateD(sens, 90);
+		}
+	}
+
+	public void parcourirLigne(String couleur) {
+		while(!(this.ToucherDeux())||Button.ESCAPE.isDown()||!(this.getUltrason().DistanceLimit(0.1)))
+		{
+			this.FollowLine(couleur);
+		}
+		if(this.ToucherDeux())
+		{
+			this.Attrape();
+			this.roues.RotateToZero();
+			while(this.getColor().colorScan()=="WHITE") 
+			{
+				this.getRoues().MoveForward();
+			}
+			this.Deposer();
+		}
+		
+	}
 	
 	
 }
