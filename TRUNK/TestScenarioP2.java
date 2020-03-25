@@ -7,7 +7,6 @@ import lejos.utility.Delay;
 
 
 
-
 public class TestScenarioP2 {
 	 
 
