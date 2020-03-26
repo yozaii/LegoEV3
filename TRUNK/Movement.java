@@ -176,4 +176,9 @@ public class Movement {
 		else if (this.getOrrien()==270) this.RotateD("Right", 90);
 	}
 	
+	public void RotateTo180(){
+		if (this.getOrrien() == 90) this.RotateD("Right", 90);
+		else if (this.getOrrien()==180) this.RotateD("Right", 180);
+		else if (this.getOrrien()==270) this.RotateD("Left", 90);
+	}
 }
