@@ -331,28 +331,31 @@ public class Robot {
 	}
 	
 	public void parcourircarrer(String leftRight,String sideColor, String frontColor, String backColor) {
+		boolean end = true;
 		String opp;
 		if (leftRight == "Right") {
 			opp = "Left";
 		}
 		else opp = "Right";
-		
 		do {
 			do {
 				this.getColor().colorScan();
 				this.getRoues().MoveForwardSpeed(250f);
-			}while (this.getColor().getCouleurCourant()!= frontColor && Button.ESCAPE.isUp());
+			}while (this.getColor().getCouleurCourant()!= frontColor && this.getColor().getCouleurCourant()!= backColor && this.getColor().getCouleurCourant()!= sideColor  && Button.ESCAPE.isUp());
 			
-			this.getRoues().RotateD(leftRight, 180);
+			if (this.getColor().getCouleurCourant()==frontColor) {
+				this.RotateUntilLinePerp(frontColor, leftRight);
+				this.getRoues().RotateD(leftRight, 90);
+			}
+			else if(this.getColor().getCouleurCourant()==backColor) {
+				this.RotateUntilLinePerp(backColor, opp);
+				this.getRoues().RotateD(opp, 90);
+			}
+			else if(this.getColor().getCouleurCourant()==sideColor) {
+				end = false;
+			}
 			
-			do {
-				this.getColor().colorScan();
-				this.getRoues().MoveForwardSpeed(300);
-			}while (this.getColor().getCouleurCourant()!= backColor && Button.ESCAPE.isUp());
-			
-			this.getRoues().RotateD(opp, 180);
-			
-		}while (this.getColor().getCouleurCourant()!= sideColor && Button.ESCAPE.isUp());
+		}while (end && Button.ESCAPE.isUp());
 	}
 	
 	public void changerCarre(String color, String sens) {
