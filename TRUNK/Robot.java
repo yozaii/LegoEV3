@@ -55,6 +55,10 @@ public class Robot {
 		return this.ultrason;
 	}
 	
+	public void setGo(boolean bool) {
+		this.go = bool;
+	}
+	
 	/*Une méthode ToucherDeux booléenne qui renvoie vrai si le capteur tactile
 	est touché, et reste touché pour 50ms*/
 	public boolean ToucherDeux(){ 
@@ -280,6 +284,89 @@ public class Robot {
 		}
 		
 	}
+	
+	public void CherchWhite() {
+		this.getRoues().MoveForwardSpeed(250f);
+	    do {
+	            this.getColor().colorScan();
+	            this.getUltrason().DistanceScan();
+	    }while ((!(this.ToucherDeux()) && !(this.getUltrason().DistanceLimit(0.1f)) && (this.getColor().getCouleurCourant()!= "YELLOW" && this.getColor().getCouleurCourant()!= "WHITE"&& this.getColor().getCouleurCourant() != "ReD")));
+	   
+	    if ( this.getColor().getCouleurCourant()=="WHITE"){
+	    	    this.RotateUntilLinePerp("WHITE", "Left");
+	    	    Delay.msDelay(100);
+	    	    this.getRoues().RotateD("Left", 90);
+	    }
+	    
+	    else if (this.getUltrason().DistanceLimit(0.1f)) {
+	    	this.getRoues().RotateD("Left", 180);
+	    	this.CherchWhite();
+	    	
+	    }
+	    else if ( this.getColor().getCouleurCourant()=="YELLOW"){
+	    		this.RotateUntilLinePerp("YELLOW", "Left");
+	    		this.getRoues().MoveForwardSpeed(250f);
+	    		do {
+	    			this.getColor().colorScan();
+	    		}
+	    		while (this.getColor().getCouleurCourant()!="WHITE");
+	    		this.RotateUntilLinePerp("WHITE", "Left");
+	    	    this.getRoues().RotateD("Left", 90);
+	    		
+	    }
+	    else if ( this.getColor().getCouleurCourant()=="RED"){
+	    			this.RotateUntilLinePerp("RED", "Left");
+	    			this.getRoues().MoveForwardSpeed(250f);
+		    		do {
+		    			this.getColor().colorScan();
+		    		}
+		    		while (this.getColor().getCouleurCourant()!="WHITE");
+		    		this.RotateUntilLinePerp("WHITE", "Left");
+		    	    this.getRoues().RotateD("Left", 90);
+	   	 
+	    }
+	    
+	    this.getRoues().resetOrrien();
+	    
+	}
+	
+	public void parcourircarrer(String leftRight,String sideColor, String frontColor, String backColor) {
+		String opp;
+		if (leftRight == "Right") {
+			opp = "Left";
+		}
+		else opp = "Right";
+		
+		do {
+			do {
+				this.getColor().colorScan();
+				this.getRoues().MoveForwardSpeed(250f);
+			}while (this.getColor().getCouleurCourant()!= frontColor && Button.ESCAPE.isUp());
+			
+			this.getRoues().RotateD(leftRight, 180);
+			
+			do {
+				this.getColor().colorScan();
+				this.getRoues().MoveForwardSpeed(300);
+			}while (this.getColor().getCouleurCourant()!= backColor && Button.ESCAPE.isUp());
+			
+			this.getRoues().RotateD(opp, 180);
+			
+		}while (this.getColor().getCouleurCourant()!= sideColor && Button.ESCAPE.isUp());
+	}
+	
+	public void changerCarre(String color, String sens) {
+		this.getRoues().MoveForward();
+		do {
+			this.getColor().colorScan();
+		}while(this.getColor().getCouleurCourant()!= color && Button.ESCAPE.isUp());
+		Delay.msDelay(900);
+		this.getRoues().Stop();
+		this.getRoues().RotateD(sens, 90);
+	}
+
+
+
 
 	
 	

@@ -165,6 +165,10 @@ public class Movement {
        	 orrien+=360;
         }
 	}
+
+	public void resetOrrien() {
+		orrien = 0;
+	}
 	
 	public int getOrrien(){
         return orrien;
