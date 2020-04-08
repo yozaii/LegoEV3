@@ -488,13 +488,18 @@ public class ColorSensorBIS {
 		*-la moyenne enregistrée
 		*/
 		float[] intervalle = this.invervalle(min, max, moyenne);
-		for(int i = 0; i<3; i++)// i<3 car il y a 3 valeurs dans un tableau RGB
+		boolean trueFalse = false;
+		for(int i = 0; i<3; i++) {// i<3 car il y a 3 valeurs dans un tableau RGB
 			if (val>=intervalle[0]&&val<=intervalle[1]) {
-				return true; 
+				trueFalse = true;
+			}
+			else {
+				trueFalse = false;
+				return trueFalse;
+			}
 		}
-		else {
-			return false;
-		}
+				return trueFalse;
+		
 	}
 	
 	public boolean estDansLIntervalleRGB(float[] colorSample, float[] minTab, float[] maxTab,float[] moyenne) {
