@@ -22,6 +22,13 @@ public class ColorSensorBIS {
 		colorProvider = colorSensor.getRGBMode();
 		colorSample = new float[colorProvider.sampleSize()];
 		couleurCourant = null; 
+		redTab = new float[NBVAL][colorProvider.sampleSize()];
+		greenTab = new float[NBVAL][colorProvider.sampleSize()];
+		blueTab = new float[NBVAL][colorProvider.sampleSize()];
+		yellowTab = new float[NBVAL][colorProvider.sampleSize()];
+		whiteTab = new float[NBVAL][colorProvider.sampleSize()];
+		blackTab = new float[NBVAL][colorProvider.sampleSize()];
+		greyTab = new float[NBVAL][colorProvider.sampleSize()];
 	}
 	
 	//Méthodes
@@ -44,408 +51,420 @@ public class ColorSensorBIS {
 	}
 	
 	public float [][] setTab(String color){
+		// cette methode prend en argument la couleur que l'on veut calibrer et fait un tableau de 5 valeurs RGB
 		float[][] tab = null;
 		
-		switch (color){
-		
-		case "red":
+		if(color == "red") {
 			for(int i=0;i<NBVAL;i++) {
-				tab[i] = this.echantillon();
+				float[] echantillon = this.echantillon();// un scan la couleur
+				tab[i][0]=echantillon[0];// la premiere valeur (R) va dans la premiere case
+				tab[i][1]=echantillon[1];//(G) dans la 2e
+				tab[i][2]=echantillon[2];//(B) dans la 3e
 				Button.waitForAnyPress();
 			}
 			redTab = tab;
 			return redTab;
-			
-		case "green":
+		}
+		
+		else if(color == "green") {
 			for(int i=0;i<NBVAL;i++) {
-				tab[i] = this.echantillon();
+				float[] echantillon = this.echantillon();// un scan la couleur				
+				tab[i][0]=echantillon[0];
+				tab[i][1]=echantillon[1];
+				tab[i][2]=echantillon[2];
 				Button.waitForAnyPress();
 			}
 			greenTab = tab;
 			return greenTab;
+		}
 			
-		case "blue":
+		else if(color == "blue") {
 			for(int i=0;i<NBVAL;i++) {
-				tab[i] = this.echantillon();
+				float[] echantillon = this.echantillon();// un scan la couleur				
+				tab[i][0]=echantillon[0];
+				tab[i][1]=echantillon[1];
+				tab[i][2]=echantillon[2];
 				Button.waitForAnyPress();
 			}
 			blueTab = tab;
 			return blueTab;
+		}
 			
-		case "yellow":
+		else if(color == "yellow") {
 			for(int i=0;i<NBVAL;i++) {
-				tab[i] = this.echantillon();
+				float[] echantillon = this.echantillon();// un scan la couleur				
+				tab[i][0]=echantillon[0];
+				tab[i][1]=echantillon[1];
+				tab[i][2]=echantillon[2];
 				Button.waitForAnyPress();
 			}
 			yellowTab = tab;
 			return yellowTab;
+		}
+		
 			
-		case "white":
+		else if(color == "white") {
 			for(int i=0;i<NBVAL;i++) {
-				tab[i] = this.echantillon();
+				float[] echantillon = this.echantillon();// un scan la couleur				
+				tab[i][0]=echantillon[0];
+				tab[i][1]=echantillon[1];
+				tab[i][2]=echantillon[2];
 				Button.waitForAnyPress();
 			}
 			whiteTab = tab;
 			return whiteTab;
+		}
 			
-		case "black":
+		else if(color == "black") {
 			for(int i=0;i<NBVAL;i++) {
-				tab[i] = this.echantillon();
+				float[] echantillon = this.echantillon();// un scan la couleur				
+				tab[i][0]=echantillon[0];
+				tab[i][1]=echantillon[1];
+				tab[i][2]=echantillon[2];
 				Button.waitForAnyPress();
 			}
 			blackTab = tab;
 			return blackTab;
+		}
 			
-		case "grey": 
+		else if(color == "grey")
 			for(int i=0;i<NBVAL;i++) {
-				tab[i] = this.echantillon();
+				float[] echantillon = this.echantillon();// un scan la couleur				
+				tab[i][0]=echantillon[0];
+				tab[i][1]=echantillon[1];
+				tab[i][2]=echantillon[2];
 				Button.waitForAnyPress();
 			}
 			greyTab = tab;
 			return greyTab;
-			
-		default:
-			return null;
-		
 		}
-	}
+		
 	
 	
 	public float[] min(String couleur) {
-		float min[]=null; // vu qu'on ne peut retourner qu'une valeur c'est un tableau RGB qui contiendra minR,minG et minB;
-		float minR, minG, minB; // valeur minimale de chaque couleur 
+		//cette methode trouve la plus petite valeur pour R, G et B en fonction de la cuoleur en commentaire
+		float min[]= {0,0,0} ; // vu qu'on ne peut retourner qu'une valeur c'est un tableau RGB qui contiendra minR,minG et minB;
 		
 		switch (couleur) {
 		case "red":
-			minR = redTab[0][0];
-			for (int i=0;i<NBVAL;i++) {
-				if(minR>redTab[i][0]) {
-					minR = redTab [i][0];
+			min[0] = redTab[0][0];
+			for (int i=0;i<NBVAL;i++) {// parcourt le tableau pour trouver le minimum
+				if(min[0]>redTab[i][0]) {
+					min[0] = redTab [i][0];
 				}
 			}
-			minG = redTab[0][1];
+			min[1] = redTab[0][1];
 			for (int i=0;i<NBVAL;i++) {
-				if(minG>redTab[i][1]) {
-					minG = redTab [i][1];
+				if(min[1]>redTab[i][1]) {
+					min[1] = redTab [i][1];
 				}
 			}		
-			minB = redTab[0][2];
+			min[2] = redTab[0][2];
 			for (int i=0;i<NBVAL;i++) {
-				if(minB>redTab[i][2]) {
-					minB = redTab [i][2];
+				if(min[2]>redTab[i][2]) {
+					min[2] = redTab [i][2];
 				}
 			}
 			
 		case "green":
-			minR = greenTab[0][0];
+			min[0] = greenTab[0][0];
 			for (int i=0;i<NBVAL;i++) {
-				if(minR>greenTab[i][0]) {
-					minR = greenTab [i][0];
+				if(min[0]>greenTab[i][0]) {
+					min[0] = greenTab [i][0];
 				}
 			}
-			minG = greenTab[0][1];
+			min[1] = greenTab[0][1];
 			for (int i=0;i<NBVAL;i++) {
-				if(minG>greenTab[i][1]) {
-					minG = greenTab [i][1];
+				if(min[1]>greenTab[i][1]) {
+					min[1] = greenTab [i][1];
 				}
 			}	
-			minB = greenTab[0][2];
+			min[2] = greenTab[0][2];
 			for (int i=0;i<NBVAL;i++) {
-				if(minB>greenTab[i][2]) {
-					minB = greenTab [i][2];
+				if(min[2]>greenTab[i][2]) {
+					min[2] = greenTab [i][2];
 				}
 			}
 			
 		case "blue":
-			minR = blueTab[0][0];
+			min[0] = blueTab[0][0];
 			for (int i=0;i<NBVAL;i++) {
-				if(minR>blueTab[i][0]) {
-					minR = blueTab [i][0];
+				if(min[0]>blueTab[i][0]) {
+					min[0] = blueTab [i][0];
 				}
 			}
 			
-			minG = redTab[0][1];
+			min[1] = redTab[0][1];
 			for (int i=0;i<NBVAL;i++) {
-				if(minG>blueTab[i][1]) {
-					minG = blueTab [i][1];
+				if(min[1]>blueTab[i][1]) {
+					min[1] = blueTab [i][1];
 				}
 			}		
-			minB = redTab[0][2];
+			min[2] = redTab[0][2];
 			for (int i=0;i<NBVAL;i++) {
-				if(minB>blueTab[i][2]) {
-					minB = blueTab [i][2];
+				if(min[2]>blueTab[i][2]) {
+					min[2] = blueTab [i][2];
 				}
 			}
 			
 		case "yellow":
-			minR = yellowTab[0][0];
+			min[0] = yellowTab[0][0];
 			for (int i=0;i<NBVAL;i++) {
-				if(minR>yellowTab[i][0]) {
-					minR = yellowTab [i][0];
+				if(min[0]>yellowTab[i][0]) {
+					min[0] = yellowTab [i][0];
 				}
 			}
 			
-			minG = yellowTab[0][1];
+			min[1] = yellowTab[0][1];
 			for (int i=0;i<NBVAL;i++) {
-				if(minG>yellowTab[i][1]) {
-					minG = yellowTab [i][1];
+				if(min[1]>yellowTab[i][1]) {
+					min[1] = yellowTab [i][1];
 				}
 			}
 					
-			minB = yellowTab[0][2];
+			min[2] = yellowTab[0][2];
 			for (int i=0;i<NBVAL;i++) {
-				if(minB>yellowTab[i][2]) {
-					minB = yellowTab [i][2];
+				if(min[2]>yellowTab[i][2]) {
+					min[2] = yellowTab [i][2];
 				}
 			}
 			
 		case "white":
-			minR = whiteTab[0][0];
+			min[0] = whiteTab[0][0];
 			for (int i=0;i<NBVAL;i++) {
-				if(minR>whiteTab[i][0]) {
-					minR = whiteTab [i][0];
+				if(min[0]>whiteTab[i][0]) {
+					min[0] = whiteTab [i][0];
 				}
 			}
 			
-			minG = whiteTab[0][1];
+			min[1] = whiteTab[0][1];
 			for (int i=0;i<NBVAL;i++) {
-				if(minG>whiteTab[i][1]) {
-					minG = whiteTab [i][1];
+				if(min[1]>whiteTab[i][1]) {
+					min[1] = whiteTab [i][1];
 				}
 			}
 					
-			minB = whiteTab[0][2];
+			min[2] = whiteTab[0][2];
 			for (int i=0;i<NBVAL;i++) {
-				if(minB>whiteTab[i][2]) {
-					minB = whiteTab [i][2];
+				if(min[2]>whiteTab[i][2]) {
+					min[2] = whiteTab [i][2];
 				}
 			}
 			
 		case "black":
-			minR = blackTab[0][0];
+			min[0] = blackTab[0][0];
 			for (int i=0;i<NBVAL;i++) {
-				if(minR>blackTab[i][0]) {
-					minR = blackTab [i][0];
+				if(min[0]>blackTab[i][0]) {
+					min[0] = blackTab [i][0];
 				}
 			}
 			
-			minG = blackTab[0][1];
+			min[1] = blackTab[0][1];
 			for (int i=0;i<NBVAL;i++) {
-				if(minG>blackTab[i][1]) {
-					minG = blackTab [i][1];
+				if(min[1]>blackTab[i][1]) {
+					min[1] = blackTab [i][1];
 				}
 			}
 					
-			minB = blackTab[0][2];
+			min[2] = blackTab[0][2];
 			for (int i=0;i<NBVAL;i++) {
-				if(minB>blackTab[i][2]) {
-					minB = blackTab [i][2];
+				if(min[2]>blackTab[i][2]) {
+					min[2] = blackTab [i][2];
 				}
 			}
 			
 		case "grey":
-			minR = greyTab[0][0];
+			min[0] = greyTab[0][0];
 			for (int i=0;i<NBVAL;i++) {
-				if(minR>greyTab[i][0]) {
-					minR = greyTab [i][0];
+				if(min[0]>greyTab[i][0]) {
+					min[0] = greyTab [i][0];
 				}
 			}
 			
-			minG = greyTab[0][1];
+			min[1] = greyTab[0][1];
 			for (int i=0;i<NBVAL;i++) {
-				if(minG>greyTab[i][1]) {
-					minG = greyTab [i][1];
+				if(min[1]>greyTab[i][1]) {
+					min[1] = greyTab [i][1];
 				}
 			}
 					
-			minB = greyTab[0][2];
+			min[2] = greyTab[0][2];
 			for (int i=0;i<NBVAL;i++) {
-				if(minB>greyTab[i][2]) {
-					minB = greyTab [i][2];
+				if(min[2]>greyTab[i][2]) {
+					min[2] = greyTab [i][2];
 				}
 			}	
 		}
-		
 		return min;
 	}
 	
 	public float[] max(String couleur) {
-		
-		float max[] = null; // vu qu'on ne peut retourner qu'une valeur c'est un tableau RGB qui contiendra minR,minG et minB;
-		float maxR=0, maxG=0, maxB=0; // valeur minimale de chaque couleur 
+		//trouve la plus grande valeur r,G et B pour une couleur mise en parametre
+		float max[] = {0,0,0}; // vu qu'on ne peut retourner qu'une valeur c'est un tableau RGB qui contiendra minR,minG et minB;
 		
 		switch (couleur) {
 		case "red":
 			//pour la couleur rouge par exemple on prend les 3 variables et on parcourt le tableau redTab 3fois 
 			//la premiere fois pour trouver le minimum de la valeur rouge
-			maxR = redTab[0][0];
-			for (int i=0;i<NBVAL;i++) {
-				if(maxR<redTab[i][0]) {
-					maxR = redTab [i][0];
+			max[0] = redTab[0][0];
+			for (int i=0;i<NBVAL;i++) {// parcours le tableau pour touver le maximum
+				if(max[0]<redTab[i][0]) {
+					max[0] = redTab [i][0];
 				}
 			}
 			//la deuxieme fois pour le minimum de la valeur verte
-			maxG = redTab[0][1];
+			max[1] = redTab[0][1];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxG<redTab[i][1]) {
-					maxG = redTab [i][1];
+				if(max[1]<redTab[i][1]) {
+					max[1] = redTab [i][1];
 				}
 			}	
 			//la 3eme fois pour le minimum de la valeur bleu
-			maxB = redTab[0][2];
+			max[2] = redTab[0][2];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxB<redTab[i][2]) {
-					maxB = redTab [i][2];
+				if(max[2]<redTab[i][2]) {
+					max[2] = redTab [i][2];
 				}
 			}
 			break;
 					
 		case "green":
-			maxR = greenTab[0][0];
+			max[0] = greenTab[0][0];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR<greenTab[i][0]) {
-					maxR = greenTab [i][0];
+				if(max[0]<greenTab[i][0]) {
+					max[0] = greenTab [i][0];
 				}
 			}
-			maxG = greenTab[0][1];
+			max[1] = greenTab[0][1];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxG>greenTab[i][1]) {
-					maxG = greenTab [i][1];
+				if(max[1]>greenTab[i][1]) {
+					max[1] = greenTab [i][1];
 				}
 			}		
-			maxB = greenTab[0][2];
+			max[2] = greenTab[0][2];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxB>greenTab[i][2]) {
-					maxB = greenTab [i][2];
+				if(max[2]>greenTab[i][2]) {
+					max[2] = greenTab [i][2];
 				}
 			}
 			break;
 			
 			
 		case "blue":
-			maxR = blueTab[0][0];
+			max[0] = blueTab[0][0];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR>blueTab[i][0]) {
-					maxR = blueTab [i][0];
+				if(max[0]>blueTab[i][0]) {
+					max[0] = blueTab [i][0];
 				}
 			}
 			
-			maxR = redTab[0][1];
+			max[1] = redTab[0][1];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR>blueTab[i][1]) {
-					maxR = blueTab [i][1];
+				if(max[1]>blueTab[i][1]) {
+					max[1] = blueTab [i][1];
 				}
 			}		
-			maxR = redTab[0][2];
+			max[2] = redTab[0][2];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR>blueTab[i][2]) {
-					maxR = blueTab [i][2];
+				if(max[2]>blueTab[i][2]) {
+					max[2] = blueTab [i][2];
 				}
 			}
 			break;
 			
 		case "yellow":
-			maxR = yellowTab[0][0];
+			max[0] = yellowTab[0][0];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR>yellowTab[i][0]) {
-					maxR = yellowTab [i][0];
+				if(max[0]>yellowTab[i][0]) {
+					max[0] = yellowTab [i][0];
 				}
 			}
 			
-			maxR = yellowTab[0][1];
+			max[1] = yellowTab[0][1];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR>yellowTab[i][1]) {
-					maxR = yellowTab [i][1];
+				if(max[1]>yellowTab[i][1]) {
+					max[1] = yellowTab [i][1];
 				}
 			}
 					
-			maxR = yellowTab[0][2];
+			max[2] = yellowTab[0][2];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR>yellowTab[i][2]) {
-					maxR = yellowTab [i][2];
+				if(max[2]>yellowTab[i][2]) {
+					max[2] = yellowTab [i][2];
 				}
 			}
 			break;
 			
 		case "white":
-			maxR = whiteTab[0][0];
+			max[0] = whiteTab[0][0];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR>whiteTab[i][0]) {
-					maxR = whiteTab [i][0];
+				if(max[0]>whiteTab[i][0]) {
+					max[0] = whiteTab [i][0];
 				}
 			}
 			
-			maxR = whiteTab[0][1];
+			max[1] = whiteTab[0][1];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR>whiteTab[i][1]) {
-					maxR = whiteTab [i][1];
+				if(max[1]>whiteTab[i][1]) {
+					max[1] = whiteTab [i][1];
 				}
 			}
 					
-			maxR = whiteTab[0][2];
+			max[2] = whiteTab[0][2];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR>whiteTab[i][2]) {
-					maxR = whiteTab [i][2];
+				if(max[2]>whiteTab[i][2]) {
+					max[2] = whiteTab [i][2];
 				}
 			}
 			break;
 			
 		case "black":
-			maxR = blackTab[0][0];
+			max[0] = blackTab[0][0];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR>blackTab[i][0]) {
-					maxR = blackTab [i][0];
+				if(max[0]>blackTab[i][0]) {
+					max[0] = blackTab [i][0];
 				}
 			}
 			
-			maxR = blackTab[0][1];
+			max[1] = blackTab[0][1];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR>blackTab[i][1]) {
-					maxR = blackTab [i][1];
+				if(max[1]>blackTab[i][1]) {
+					max[1] = blackTab [i][1];
 				}
 			}
 					
-			maxR = blackTab[0][2];
+			max[2] = blackTab[0][2];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR>blackTab[i][2]) {
-					maxR = blackTab [i][2];
+				if(max[2]>blackTab[i][2]) {
+					max[2] = blackTab [i][2];
 				}
 			}
 			break;
 			
 		case "grey":
-			maxR = greyTab[0][0];
+			max[0] = greyTab[0][0];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR>greyTab[i][0]) {
-					maxR = greyTab [i][0];
+				if(max[0]>greyTab[i][0]) {
+					max[0] = greyTab [i][0];
 				}
 			}
 			
-			maxR = greyTab[0][1];
+			max[1] = greyTab[0][1];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR>greyTab[i][1]) {
-					maxR = greyTab [i][1];
+				if(max[1]>greyTab[i][1]) {
+					max[1] = greyTab [i][1];
 				}
 			}
 					
-			maxR = greyTab[0][2];
+			max[2] = greyTab[0][2];
 			for (int i=0;i<NBVAL;i++) {
-				if(maxR>greyTab[i][2]) {
-					maxR = greyTab [i][2];
+				if(max[2]>greyTab[i][2]) {
+					max[2] = greyTab [i][2];
 				}
 			}
 			break;
 		}
-		
-		
-		
-		//on rentre les valeurs trouvées dans le tableau max
-		max[0] = maxR;
-		max[1] = maxG;
-		max[2] = maxB;
-		
 		return max;
-		
 	}
 	
 	public float[] calculMoy(float[][] tab, int nbval) {
@@ -503,6 +522,7 @@ public class ColorSensorBIS {
 	}
 	
 	public boolean estDansLIntervalleRGB(float[] colorSample, float[] minTab, float[] maxTab,float[] moyenne) {
+//on utilise la methode estDansLIntervalle et on l'applique a un echantillion
 		boolean trueFalse=false;
 		for(int i = 0; i<3;i++) {// car 3 valeurs dans un tableau rgb
 			if(this.estDansLInterval(colorSample[i], minTab[i], maxTab[i], moyenne[i])){
@@ -557,5 +577,40 @@ public class ColorSensorBIS {
 	
 	public String getCouleurCourant() {
 		return couleurCourant;
+	}
+	
+	public void afficheTest(String methode,String couleur) {//choix: min max moyenne 
+		switch (methode) {
+		case "min":
+			float[] min = this.min(couleur);
+			System.out.println("min:");
+			System.out.println("R:"+min[0]);
+			System.out.println("G:"+min[1]);
+			System.out.println("B:"+min[2]);
+			break;
+			
+		case "max": 
+			float[] max = this.max(couleur);
+			System.out.println("max:");
+			System.out.println("R:"+max[0]);
+			System.out.println("G:"+max[1]);
+			System.out.println("B:"+max[2]);
+			break;
+			
+		case "moyenne":
+			float[] moy = this.calculMoy(redTab, NBVAL);// pour l'instant je met rouge par defaut parce que j'ai la flemme de faire un autre switch si ça marche je rectifierai
+			System.out.println("moyennee:"+moy);
+			break;
+			
+			
+		}
+	}
+	
+	public void affiche() {
+		for (int i=0;i<5;i++) {
+			System.out.println("R" + redTab[i][0]);
+			System.out.println("G" + redTab[i][0]);
+			System.out.println("B" + redTab[i][1]);
+		}
 	}
 }
