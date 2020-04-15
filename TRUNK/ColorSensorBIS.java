@@ -1,3 +1,8 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import lejos.hardware.Button;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.port.Port;
@@ -32,7 +37,8 @@ public class ColorSensorBIS {
 	}
 	
 	//Méthodes
-	public void ColorTesting() {//affiche les valeurs RGB se trouvant dans le tableau colorSample
+//affiche les valeurs RGB se trouvant dans le tableau colorSample
+	public void ColorTesting() {
 		
 		while(Button.ESCAPE.isUp()) {
 			colorProvider.fetchSample(colorSample, 0);
@@ -44,105 +50,173 @@ public class ColorSensorBIS {
 		
 		colorSensor.close();
 	}
-	
-	public float[] echantillon() {//place les valeurs RGB scannées dans le tableau colorSample, renvoie colorSample
+//place les valeurs RGB scannées dans le tableau colorSample, renvoie colorSample	
+	public float[] echantillon() {
 		colorProvider.fetchSample(colorSample, 0);
 		return colorSample;
 	}
-	
-	public float [][] setTab(String color){
-		// cette methode prend en argument la couleur que l'on veut calibrer et fait un tableau de 5 valeurs RGB
-		float[][] tab = null;
-		
-		if(color == "red") {
-			for(int i=0;i<NBVAL;i++) {
-				float[] echantillon = this.echantillon();// un scan la couleur
-				tab[i][0]=echantillon[0];// la premiere valeur (R) va dans la premiere case
-				tab[i][1]=echantillon[1];//(G) dans la 2e
-				tab[i][2]=echantillon[2];//(B) dans la 3e
-				Button.waitForAnyPress();
-			}
-			redTab = tab;
-			return redTab;
-		}
-		
-		else if(color == "green") {
-			for(int i=0;i<NBVAL;i++) {
-				float[] echantillon = this.echantillon();// un scan la couleur				
-				tab[i][0]=echantillon[0];
-				tab[i][1]=echantillon[1];
-				tab[i][2]=echantillon[2];
-				Button.waitForAnyPress();
-			}
-			greenTab = tab;
-			return greenTab;
-		}
-			
-		else if(color == "blue") {
-			for(int i=0;i<NBVAL;i++) {
-				float[] echantillon = this.echantillon();// un scan la couleur				
-				tab[i][0]=echantillon[0];
-				tab[i][1]=echantillon[1];
-				tab[i][2]=echantillon[2];
-				Button.waitForAnyPress();
-			}
-			blueTab = tab;
-			return blueTab;
-		}
-			
-		else if(color == "yellow") {
-			for(int i=0;i<NBVAL;i++) {
-				float[] echantillon = this.echantillon();// un scan la couleur				
-				tab[i][0]=echantillon[0];
-				tab[i][1]=echantillon[1];
-				tab[i][2]=echantillon[2];
-				Button.waitForAnyPress();
-			}
-			yellowTab = tab;
-			return yellowTab;
-		}
-		
-			
-		else if(color == "white") {
-			for(int i=0;i<NBVAL;i++) {
-				float[] echantillon = this.echantillon();// un scan la couleur				
-				tab[i][0]=echantillon[0];
-				tab[i][1]=echantillon[1];
-				tab[i][2]=echantillon[2];
-				Button.waitForAnyPress();
-			}
-			whiteTab = tab;
-			return whiteTab;
-		}
-			
-		else if(color == "black") {
-			for(int i=0;i<NBVAL;i++) {
-				float[] echantillon = this.echantillon();// un scan la couleur				
-				tab[i][0]=echantillon[0];
-				tab[i][1]=echantillon[1];
-				tab[i][2]=echantillon[2];
-				Button.waitForAnyPress();
-			}
-			blackTab = tab;
-			return blackTab;
-		}
-			
-		else if(color == "grey")
-			for(int i=0;i<NBVAL;i++) {
-				float[] echantillon = this.echantillon();// un scan la couleur				
-				tab[i][0]=echantillon[0];
-				tab[i][1]=echantillon[1];
-				tab[i][2]=echantillon[2];
-				Button.waitForAnyPress();
-			}
-			greyTab = tab;
-			return greyTab;
-		}
-		
+
+// Cette methode prend en argument la couleur que l'on veut calibrer et fait un tableau de NBVAL valeurs RGB
+
 	
 	
+	public void setTab(String color) throws IOException{
+		
+		File data = new File("data.txt");
+		
+		if(!data.exists()) {
+			try {
+				data.createNewFile();
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+			this.setTab(color);
+		}
+		else if (data.exists()) {	
+			
+				FileWriter writer = new FileWriter(data);
+				BufferedWriter bw = new BufferedWriter(writer);
+
+				if(color == "red") {
+			
+					for(int i=0;i<NBVAL;i++) {
+						float[] echantillon = this.echantillon();
+						try {
+							bw.newLine();
+							this.redTab[i][0]=echantillon[0];// la premiere valeur (R) va dans la premiere case
+							bw.write (String.valueOf(redTab[i][0]));// 		puis copie la valeur dans le fichier data
+							this.redTab[i][1]=echantillon[1];//(G) dans la 2e
+							bw.write (String.valueOf(redTab[i][1]));
+							this.redTab[i][2]=echantillon[2];//(B) dans la 3e
+							bw.write (String.valueOf(redTab[i][2]));
+							Button.waitForAnyPress();
+						}catch(IOException e) {
+							e.printStackTrace();
+						}
+					}
+					bw.close();
+				}
+		
+				else if(color == "green") {
+					for(int i=0;i<NBVAL;i++) {
+						float[] echantillon = this.echantillon();	
+						try {
+						bw.newLine();
+						this.greenTab[i][0]=echantillon[0];
+						bw.write(String.valueOf(greenTab[i][0]));
+						this.greenTab[i][1]=echantillon[1];
+						bw.write(String.valueOf(greenTab[i][1]));
+						this.greenTab[i][2]=echantillon[2];
+						bw.write(String.valueOf(greenTab[i][2]));
+						Button.waitForAnyPress();
+						}catch(IOException e) {
+							e.printStackTrace();
+						}
+					}
+					bw.close();
+				}
+			
+				else if(color == "blue") {
+					for(int i=0;i<NBVAL;i++) {
+						float[] echantillon = this.echantillon();	
+						try {
+						this.blueTab[i][0]=echantillon[0];
+						bw.write(String.valueOf(blueTab[i][0]));
+						this.blueTab[i][1]=echantillon[1];
+						bw.write(String.valueOf(blueTab[i][1]));
+						this.blueTab[i][2]=echantillon[2];
+						bw.write(String.valueOf(blueTab[i][2]));
+						Button.waitForAnyPress();
+						}catch(IOException e) {
+							e.printStackTrace();
+						}
+					}
+					bw.close();
+				}
+			
+				else if(color == "yellow") {
+					for(int i=0;i<NBVAL;i++) {
+						float[] echantillon = this.echantillon();	
+						try {
+						bw.newLine();
+						this.yellowTab[i][0]=echantillon[0];
+						bw.write(String.valueOf(yellowTab[i][0]));
+						this.yellowTab[i][1]=echantillon[1];
+						bw.write(String.valueOf(yellowTab[i][1]));
+						this.yellowTab[i][2]=echantillon[2];
+						bw.write(String.valueOf(yellowTab[i][2]));
+						Button.waitForAnyPress();
+						}catch(IOException e) {
+							e.printStackTrace();
+						}
+					}
+					bw.close();
+				}
+		
+			
+				else if(color == "white") {
+					for(int i=0;i<NBVAL;i++) {
+						float[] echantillon = this.echantillon();
+						try {
+						bw.newLine();
+						this.whiteTab[i][0]=echantillon[0];
+						bw.write(String.valueOf(whiteTab[i][0]));
+						this.whiteTab[i][1]=echantillon[1];
+						bw.write(String.valueOf(whiteTab[i][1]));
+						this.whiteTab[i][2]=echantillon[2];
+						bw.write(String.valueOf(whiteTab[i][2]));
+						Button.waitForAnyPress();
+						}catch(IOException e) {
+							e.printStackTrace();
+						}
+					}
+					bw.close();
+				}
+			
+				else if(color == "black") {
+					for(int i=0;i<NBVAL;i++) {
+						float[] echantillon = this.echantillon();
+						try {
+						bw.newLine();
+						this.blackTab[i][0]=echantillon[0];
+						bw.write(String.valueOf(blackTab[i][0]));
+						this.blackTab[i][1]=echantillon[1];
+						bw.write(String.valueOf(blackTab[i][1]));
+						this.blackTab[i][2]=echantillon[2];
+						bw.write(String.valueOf(blackTab[i][2]));
+						Button.waitForAnyPress();
+						}catch(IOException e) {
+							e.printStackTrace();
+						}
+					}
+					bw.close();
+				}
+			
+				else if(color == "grey") {
+					for(int i=0;i<NBVAL;i++) {
+						float[] echantillon = this.echantillon();	
+						try {
+						bw.newLine();
+						this.greyTab[i][0]=echantillon[0];
+						bw.write(String.valueOf(greyTab[i][0]));
+						this.greyTab[i][1]=echantillon[1];
+						bw.write(String.valueOf(greyTab[i][1]));
+						this.greyTab[i][2]=echantillon[2];
+						bw.write(String.valueOf(greyTab[i][2]));
+						Button.waitForAnyPress();
+						}catch(IOException e) {
+							e.printStackTrace();
+						}
+					}
+					bw.close();
+				}
+			bw.close();		
+		}
+	}
+		
+	
+//cette methode trouve la plus petite valeur pour R, G et B en fonction de la couleur en commentaire	
 	public float[] min(String couleur) {
-		//cette methode trouve la plus petite valeur pour R, G et B en fonction de la cuoleur en commentaire
 		float min[]= {0,0,0} ; // vu qu'on ne peut retourner qu'une valeur c'est un tableau RGB qui contiendra minR,minG et minB;
 		
 		switch (couleur) {
@@ -467,24 +541,19 @@ public class ColorSensorBIS {
 		return max;
 	}
 	
-	public float[] calculMoy(float[][] tab, int nbval) {
+	public float[] calculMoy(float[][] tab) {
 		// calcul la moyenne des valeurs rgb d'un tableau
-		float moyenne []=null;
-		float moyR=0,moyG=0,moyB=0;
-		for(int i = 0; i<nbval; i++) {//additionne tous les elements
-			moyR+=tab[i][0];
-			moyG+=tab[i][1];
-			moyB+=tab[i][2];
+		float[] moyenne= {0,0,0};
+		for(int i = 0; i<NBVAL; i++) {//additionne tous les elements
+			moyenne[0]+=tab[i][0];
+			moyenne[1]+=tab[i][1];
+			moyenne[2]+=tab[i][2];
 		}
 		
-		moyR=moyR/nbval;//les divise par le nombre d'elements du tableau
-		moyG=moyG/nbval;
-		moyB=moyB/nbval;
-		
-		moyenne[0]=moyR;
-		moyenne[1]=moyG;
-		moyenne[2]=moyB;
-		
+		moyenne[0]=moyenne[0]/NBVAL;//les divise par le nombre d'elements du tableau
+		moyenne[1]=moyenne[1]/NBVAL;
+		moyenne[2]=moyenne[2]/NBVAL;
+	
 		return moyenne;
 	}
 	
@@ -541,26 +610,26 @@ public class ColorSensorBIS {
 	public String colorRenvoi() {
 		String color = null;
 		
-//	 permettra d'identifier une couleur en fonction de l'intervalle au quelle appartien ses valeurs RGB
-		if(this.estDansLIntervalleRGB(colorSample, this.min("red"), this.max("red"), this.calculMoy(redTab, NBVAL))) {
+//	 permettra d'identifier une couleur en fonction de l'intervalle auquel appartient ses valeurs RGB
+		if(this.estDansLIntervalleRGB(colorSample, this.min("red"), this.max("red"), this.calculMoy(redTab))) {
 			color = "RED";
 		}
-		else if (this.estDansLIntervalleRGB(colorSample, this.min("green"), this.max("green"), this.calculMoy(greenTab, NBVAL))) {
+		else if (this.estDansLIntervalleRGB(colorSample, this.min("green"), this.max("green"), this.calculMoy(greenTab))) {
 			color = "GREEN";
 		}
-		else if (this.estDansLIntervalleRGB(colorSample, this.min("blue"), this.max("blue"), this.calculMoy(blueTab, NBVAL))) {
+		else if (this.estDansLIntervalleRGB(colorSample, this.min("blue"), this.max("blue"), this.calculMoy(blueTab))) {
 			color = "BLUE";
 		}
-		else if (this.estDansLIntervalleRGB(colorSample, this.min("yellow"), this.max("yellow"), this.calculMoy(yellowTab, NBVAL))) {
+		else if (this.estDansLIntervalleRGB(colorSample, this.min("yellow"), this.max("yellow"), this.calculMoy(yellowTab))) {
 			color = "YELLOW";
 		}
-		else if (this.estDansLIntervalleRGB(colorSample, this.min("black"), this.max("black"), this.calculMoy(blackTab, NBVAL))) {
+		else if (this.estDansLIntervalleRGB(colorSample, this.min("black"), this.max("black"), this.calculMoy(blackTab))) {
 			color = "BLACK";
 		}
-		else if(this.estDansLIntervalleRGB(colorSample, this.min("white"), this.max("white"), this.calculMoy(whiteTab, NBVAL))) {
+		else if(this.estDansLIntervalleRGB(colorSample, this.min("white"), this.max("white"), this.calculMoy(whiteTab))) {
 			color = "WHITE";
 		}
-		else if(this.estDansLIntervalleRGB(colorSample, this.min("gre"), this.max("grey"), this.calculMoy(greyTab, NBVAL))) {
+		else if(this.estDansLIntervalleRGB(colorSample, this.min("gre"), this.max("grey"), this.calculMoy(greyTab))) {
 			color = "GREY";
 		}
 
@@ -569,7 +638,7 @@ public class ColorSensorBIS {
 	}
 	
 	
-	public String colorScan() {
+	public String colorScan() {//scan une couleur et retourne la couleur analysée sous forme de String
 		this.echantillon();
 		couleurCourant = this.colorRenvoi();
 		return  couleurCourant;
@@ -579,7 +648,11 @@ public class ColorSensorBIS {
 		return couleurCourant;
 	}
 	
+
+
+	
 	public void afficheTest(String methode,String couleur) {//choix: min max moyenne 
+		// permet de tester les méthodes min max et moyenne
 		switch (methode) {
 		case "min":
 			float[] min = this.min(couleur);
@@ -598,7 +671,7 @@ public class ColorSensorBIS {
 			break;
 			
 		case "moyenne":
-			float[] moy = this.calculMoy(redTab, NBVAL);// pour l'instant je met rouge par defaut parce que j'ai la flemme de faire un autre switch si ça marche je rectifierai
+			float[] moy = this.calculMoy(redTab);// pour l'instant je met rouge par defaut parce que j'ai la flemme de faire un autre switch si ça marche je rectifierai
 			System.out.println("moyennee:"+moy);
 			break;
 			
@@ -607,6 +680,7 @@ public class ColorSensorBIS {
 	}
 	
 	public void affiche() {
+		//permet de tester la méthode setTab
 		for (int i=0;i<5;i++) {
 			System.out.println("R" + redTab[i][0]);
 			System.out.println("G" + redTab[i][0]);
