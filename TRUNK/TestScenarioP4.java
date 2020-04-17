@@ -1,17 +1,13 @@
 package real;
-
 import lejos.hardware.Button;
-
-
-
 public class TestScenarioP4 {
-	public static void main (String[] args) {
+        public static void main (String[] args) {
         
         Robot robot = new Robot();
         
         String StartCamp, EndCamp;
         robot.getInfo().menu();
-        System.out.println(robot.getInfo().getCampDep());
+        System.out.println(robot.getInfo().getCampDep());//on affiche le camp de depart
         if (robot.getInfo().getCampDep()=="Ouest") {// si le camp de depart est OUEST 
                 StartCamp = "BLUE";// le camp de depart est du cote de la ligne bleue.
                 EndCamp ="GREEN";//le camp adverse est du cote de la ligne verte.
@@ -23,17 +19,19 @@ public class TestScenarioP4 {
         System.out.println("Press any button");
         Button.waitForAnyPress();
         if (robot.getInfo().getCampDep()=="EST") {//si camp de depart EST
-        	 robot.getRoues().MoveForwardSpeed(200f);//le robot avance
-             do { // le robot avance et renvoi la couleur tant que le capteur tacttile nest pas touche, la couleur captee nest pas verte ni bleue
+        	     robot.RchrchCamp(); // permet au robot de rejoindre le camp de depart, si il croise un palet il le depose dans le camp adverse.
+                 robot.getRoues().MoveForwardSpeed(200f);//le robot avance
+                
+             do { // le robot avance et renvoi la couleur tant que le capteur tactile nest pas touche et tant que la couleur captee nest pas verte ni bleue
                      robot.getColor().colorScan();
              }while ((!(robot.ToucherDeux())) && (robot.getColor().getCouleurCourant()!= "GREEN" && robot.getColor().getCouleurCourant() != "BLUE")); 
              if(robot.getColor().getCouleurCourant()=="BLUE"){// si la couleur captee est bleue
-            	 robot.RchrchCamp(); // permet au robot de rejoindre le camp de depart, si il croise un palet il le depose dans le camp adverse.
-            	 robot.getRoues().MoveForwardSpeed(200f);// le robot avance
-            	 do {// le robot avance et renvoi la couleur tant que celle ci nest pas verte
-            		 robot.getColor().colorScan();
-            	 }
-            	 while(robot.getColor().getCouleurCourant()!="GREEN");
+                     robot.RchrchCamp(); // permet au robot de rejoindre le camp de depart, si il croise un palet il le depose dans le camp adverse.
+                     robot.getRoues().MoveForwardSpeed(200f);// le robot avance
+                     do {// le robot avance et renvoi la couleur tant que celle ci nest pas verte
+                             robot.getColor().colorScan();
+                     }
+                     while(robot.getColor().getCouleurCourant()!="GREEN");
              }
                  robot.RotateUntilLinePerp("GREEN", "Right");
          
@@ -71,19 +69,19 @@ public class TestScenarioP4 {
      
         }
         else if (robot.getInfo().getCampDep()=="Ouest") {//si le camp de depart est OUEST.
-        	
-       	 robot.CherchWhite(); //permet au robot de rejoindre la ligne blanche.
-       	 robot.getRoues().MoveForwardSpeed(200f);//le robot avance
+                
+                robot.RchrchCamp(); // permet au robot de rejoindre le camp de depart, si il croise un palet il le depose dans le camp adverse.
+                robot.getRoues().MoveForwardSpeed(200f);//le robot avance
             do { //le robot avance et renvoi la couleur tant quela capteur tactile nest pas touche, la couleur captee nest pas bleue ni verte. 
                     robot.getColor().colorScan();
             }while ((!(robot.ToucherDeux())) && (robot.getColor().getCouleurCourant()!= "GREEN" && robot.getColor().getCouleurCourant() != "BLUE")); 
             if(robot.getColor().getCouleurCourant()=="GREEN"){// si le robot capte la couleur verte.
-           	 robot.RchrchCamp(); // permet au robot de rejoindre le camp de depart, si il croise un palet il le depose dans le camp adverse.
-           	 robot.getRoues().MoveForwardSpeed(200f);//le robot avance.
-           	 do {// le robot avance et renvoi la couleur tant que celle ci nest pas bleue.
-           		 robot.getColor().colorScan();
-           	 }
-           	 while(robot.getColor().getCouleurCourant()!="BLUE");
+            
+                    robot.getRoues().MoveForwardSpeed(200f);//le robot avance.
+                    do {// le robot avance et renvoi la couleur tant que celle ci nest pas bleue.
+                            robot.getColor().colorScan();
+                    }
+                    while(robot.getColor().getCouleurCourant()!="BLUE");
             }
                 robot.RotateUntilLinePerp("BLUE", "Right");
         
@@ -120,5 +118,5 @@ public class TestScenarioP4 {
             
     
        }
-	}
+        }
 }
