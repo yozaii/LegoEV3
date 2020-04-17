@@ -7,8 +7,8 @@ public class Movement {
 	
 	private EV3LargeRegulatedMotor lMotor ; //Declaration d'une variable EV3RegulatedMotor lMotor (left motor)
 	private EV3LargeRegulatedMotor rMotor ;//Declaration d'une variable EV3RegulatedMotor lMotor (left motor)
-	int orrien;
-	int vitesse;
+	private int orrien; //*****
+	private float vitesse;
 	
 	public Movement() {
 		lMotor = new EV3LargeRegulatedMotor (MotorPort.A); //lMotor controle désormais le motor connecté au PortA
@@ -16,6 +16,7 @@ public class Movement {
 		lMotor.synchronizeWith(new EV3LargeRegulatedMotor[] {rMotor});/* lMotor est synchronisé avec rMotor lors d'appels
 																		des méthodes startSynchronization et endSynchronization*/
 		orrien = 0;
+		vitesse = 250f;
 	}
 	
 	//Méthode de mouvement en avant
@@ -165,13 +166,22 @@ public class Movement {
        	 orrien+=360;
         }
 	}
-
+	
 	public void resetOrrien() {
 		orrien = 0;
 	}
 	
+	//Getters
 	public int getOrrien(){
         return orrien;
+	}
+	
+	public float getVitesse() {
+		return vitesse;
+	}
+	
+	public void setVitesse(float vit) {
+		vitesse = vit;
 	}
 	
 	public void RotateToZero(){
@@ -185,4 +195,6 @@ public class Movement {
 		else if (this.getOrrien()==180) this.RotateD("Right", 180);
 		else if (this.getOrrien()==270) this.RotateD("Left", 90);
 	}
+	
 }
+
