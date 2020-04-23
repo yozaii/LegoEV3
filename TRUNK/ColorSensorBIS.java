@@ -89,6 +89,7 @@ public class ColorSensor{
 			BufferedWriter bw = new BufferedWriter(writer);
 	
 			for (int i = 0; i < NBVAL; i++) {
+				Button.waitForAnyPress();
 				float[] echantillon = this.echantillon();
 				try {
 					this.redTab[i][0] = echantillon[0];// la premiere valeur (R) va dans la premiere case
@@ -100,7 +101,6 @@ public class ColorSensor{
 					this.redTab[i][2] = echantillon[2];// (B) dans la 3e
 					bw.write(String.valueOf(redTab[i][2]));
 					bw.newLine();
-					Button.waitForAnyPress();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -110,200 +110,163 @@ public class ColorSensor{
 		}
 
 		else if (color == "green") {
-			if (!greenData.exists()) {
-				try {
-					greenData.createNewFile();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				this.setTab(color);
-			} else if (redData.exists()) {
 
-				FileWriter writer = new FileWriter(greenData);
-				BufferedWriter bw = new BufferedWriter(writer);
-
-
+			FileWriter writer = new FileWriter(greenData);
+			BufferedWriter bw = new BufferedWriter(writer);
+	
 			for (int i = 0; i < NBVAL; i++) {
+				Button.waitForAnyPress();
 				float[] echantillon = this.echantillon();
 				try {
+					this.greenTab[i][0] = echantillon[0];// la premiere valeur (R) va dans la premiere case
+					bw.write(String.valueOf(greenTab[i][0]));// puis copie la valeur dans le fichier data
 					bw.newLine();
-					this.greenTab[i][0] = echantillon[0];
-					bw.write(String.valueOf(greenTab[i][0]));
-					this.greenTab[i][1] = echantillon[1];
+					this.greenTab[i][1] = echantillon[1];// (G) dans la 2e
 					bw.write(String.valueOf(greenTab[i][1]));
-					this.greenTab[i][2] = echantillon[2];
+					bw.newLine();
+					this.greenTab[i][2] = echantillon[2];// (B) dans la 3e
 					bw.write(String.valueOf(greenTab[i][2]));
-					Button.waitForAnyPress();
+					bw.newLine();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 			bw.close();
-			}
+		
 		}
+
 
 		else if (color == "blue") {
-			if (!blueData.exists()) {
+
+			FileWriter writer = new FileWriter(blueData);
+			BufferedWriter bw = new BufferedWriter(writer);
+	
+			for (int i = 0; i < NBVAL; i++) {
+				Button.waitForAnyPress();
+				float[] echantillon = this.echantillon();
 				try {
-					blueData.createNewFile();
+					this.blueTab[i][0] = echantillon[0];// la premiere valeur (R) va dans la premiere case
+					bw.write(String.valueOf(blueTab[i][0]));// puis copie la valeur dans le fichier data
+					bw.newLine();
+					this.blueTab[i][1] = echantillon[1];// (G) dans la 2e
+					bw.write(String.valueOf(blueTab[i][1]));
+					bw.newLine();
+					this.blueTab[i][2] = echantillon[2];// (B) dans la 3e
+					bw.write(String.valueOf(blueTab[i][2]));
+					bw.newLine();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				this.setTab(color);
-			} 
-			else if (blueData.exists()) {
-
-				FileWriter writer = new FileWriter(blueData);
-				BufferedWriter bw = new BufferedWriter(writer);
-
-		
-				for (int i = 0; i < NBVAL; i++) {
-					float[] echantillon = this.echantillon();
-					try {
-						bw.newLine();
-						this.blueTab[i][0] = echantillon[0];
-						bw.write(String.valueOf(blueTab[i][0]));
-						this.blueTab[i][1] = echantillon[1];
-						bw.write(String.valueOf(blueTab[i][1]));
-						this.blueTab[i][2] = echantillon[2];
-						bw.write(String.valueOf(blueTab[i][2]));
-						Button.waitForAnyPress();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
 			}
 			bw.close();
-			}
+		
 		}
+
 
 		else if (color == "yellow") {
-			if (!yellowData.exists()) {
+
+			FileWriter writer = new FileWriter(yellowData);
+			BufferedWriter bw = new BufferedWriter(writer);
+	
+			for (int i = 0; i < NBVAL; i++) {
+				Button.waitForAnyPress();
+				float[] echantillon = this.echantillon();
 				try {
-					yellowData.createNewFile();
+					this.yellowTab[i][0] = echantillon[0];// la premiere valeur (R) va dans la premiere case
+					bw.write(String.valueOf(yellowTab[i][0]));// puis copie la valeur dans le fichier data
+					bw.newLine();
+					this.yellowTab[i][1] = echantillon[1];// (G) dans la 2e
+					bw.write(String.valueOf(yellowTab[i][1]));
+					bw.newLine();
+					this.yellowTab[i][2] = echantillon[2];// (B) dans la 3e
+					bw.write(String.valueOf(yellowTab[i][2]));
+					bw.newLine();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				this.setTab(color);
-			} else if (yellowData.exists()) {
-
-				FileWriter writer = new FileWriter(yellowData);
-				BufferedWriter bw = new BufferedWriter(writer);
-
-				for (int i = 0; i < NBVAL; i++) {
-					float[] echantillon = this.echantillon();
-					try {
-						bw.newLine();
-						this.yellowTab[i][0] = echantillon[0];
-						bw.write(String.valueOf(yellowTab[i][0]));
-						this.yellowTab[i][1] = echantillon[1];
-						bw.write(String.valueOf(yellowTab[i][1]));
-						this.yellowTab[i][2] = echantillon[2];
-						bw.write(String.valueOf(yellowTab[i][2]));
-						Button.waitForAnyPress();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				bw.close();
 			}
-		}
-
-		else if (color == "white") {
-			if (!whiteData.exists()) {
-				try {
-					whiteData.createNewFile();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				this.setTab(color);
-				
-			} 
-			else if (whiteData.exists()) {
-				FileWriter writer = new FileWriter(whiteData);
-				BufferedWriter bw = new BufferedWriter(writer);
-
-				for (int i = 0; i < NBVAL; i++) {
-					float[] echantillon = this.echantillon();
-					try {
-						bw.newLine();
-						this.whiteTab[i][0] = echantillon[0];
-						bw.write(String.valueOf(whiteTab[i][0]));
-						this.whiteTab[i][1] = echantillon[1];
-						bw.write(String.valueOf(whiteTab[i][1]));
-						this.whiteTab[i][2] = echantillon[2];
-						bw.write(String.valueOf(whiteTab[i][2]));
-						Button.waitForAnyPress();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				bw.close();
-			}
+			bw.close();
+		
 		}
 
 		else if (color == "black") {
-			if (!blackData.exists()) {
+
+			FileWriter writer = new FileWriter(blackData);
+			BufferedWriter bw = new BufferedWriter(writer);
+	
+			for (int i = 0; i < NBVAL; i++) {
+				Button.waitForAnyPress();
+				float[] echantillon = this.echantillon();
 				try {
-					blackData.createNewFile();
+					this.blackTab[i][0] = echantillon[0];// la premiere valeur (R) va dans la premiere case
+					bw.write(String.valueOf(blackTab[i][0]));// puis copie la valeur dans le fichier data
+					bw.newLine();
+					this.blackTab[i][1] = echantillon[1];// (G) dans la 2e
+					bw.write(String.valueOf(blackTab[i][1]));
+					bw.newLine();
+					this.blackTab[i][2] = echantillon[2];// (B) dans la 3e
+					bw.write(String.valueOf(blackTab[i][2]));
+					bw.newLine();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				this.setTab(color);
-			} else if (blackData.exists()) {
-
-				FileWriter writer = new FileWriter(blackData);
-				BufferedWriter bw = new BufferedWriter(writer);
-	
-				for (int i = 0; i < NBVAL; i++) {
-					float[] echantillon = this.echantillon();
-					try {
-						bw.newLine();
-						this.blackTab[i][0] = echantillon[0];
-						bw.write(String.valueOf(blackTab[i][0]));
-						this.blackTab[i][1] = echantillon[1];
-						bw.write(String.valueOf(blackTab[i][1]));
-						this.blackTab[i][2] = echantillon[2];
-						bw.write(String.valueOf(blackTab[i][2]));
-						Button.waitForAnyPress();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				bw.close();
 			}
+			bw.close();
+		
 		}
 
-		else if (color == "grey") {
-			if (!greyData.exists()) {
+
+		else if (color == "white") {
+
+			FileWriter writer = new FileWriter(whiteData);
+			BufferedWriter bw = new BufferedWriter(writer);
+	
+			for (int i = 0; i < NBVAL; i++) {
+				Button.waitForAnyPress();
+				float[] echantillon = this.echantillon();
 				try {
-					greyData.createNewFile();
+					this.whiteTab[i][0] = echantillon[0];// la premiere valeur (R) va dans la premiere case
+					bw.write(String.valueOf(whiteTab[i][0]));// puis copie la valeur dans le fichier data
+					bw.newLine();
+					this.whiteTab[i][1] = echantillon[1];// (G) dans la 2e
+					bw.write(String.valueOf(whiteTab[i][1]));
+					bw.newLine();
+					this.whiteTab[i][2] = echantillon[2];// (B) dans la 3e
+					bw.write(String.valueOf(whiteTab[i][2]));
+					bw.newLine();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				this.setTab(color);
-			} 
-			else if (greyData.exists()) {
-
-				FileWriter writer = new FileWriter(greyData);
-				BufferedWriter bw = new BufferedWriter(writer);
-
-				for (int i = 0; i < NBVAL; i++) {
-					float[] echantillon = this.echantillon();
-					try {
-						bw.newLine();
-						this.greyTab[i][0] = echantillon[0];
-						bw.write(String.valueOf(greyTab[i][0]));
-						this.greyTab[i][1] = echantillon[1];
-						bw.write(String.valueOf(greyTab[i][1]));
-						this.greyTab[i][2] = echantillon[2];
-						bw.write(String.valueOf(greyTab[i][2]));
-						Button.waitForAnyPress();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				bw.close();
 			}
+			bw.close();
+		
+		}
+
+
+		else if (color == "grey") {
+
+			FileWriter writer = new FileWriter(greyData);
+			BufferedWriter bw = new BufferedWriter(writer);
+	
+			for (int i = 0; i < NBVAL; i++) {
+				Button.waitForAnyPress();
+				float[] echantillon = this.echantillon();
+				try {
+					this.greyTab[i][0] = echantillon[0];// la premiere valeur (R) va dans la premiere case
+					bw.write(String.valueOf(greyTab[i][0]));// puis copie la valeur dans le fichier data
+					bw.newLine();
+					this.greyTab[i][1] = echantillon[1];// (G) dans la 2e
+					bw.write(String.valueOf(greyTab[i][1]));
+					bw.newLine();
+					this.greyTab[i][2] = echantillon[2];// (B) dans la 3e
+					bw.write(String.valueOf(greyTab[i][2]));
+					bw.newLine();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			bw.close();
+		
 		}
 	}
 
@@ -323,15 +286,10 @@ public class ColorSensor{
 					
 						
 						for (int j = 0; j < 3; j++) {
-							/*if (scanner.nextLine().isEmpty()&& scanner.hasNextLine()) {
-								scanner.nextLine();
-							}	*/
+
 							this.redTab[i][j] = Float.valueOf(scanner.nextLine()).floatValue(); // Et on les met dans le tableau
-							//System.out.println(this.redTab[i][j]);//test
-						}			
-							
-							// test:
-							// System.out.println("Valeur : " + redTab[i][iRGB-1]);
+
+						}
 											
 					}
 				scanner.close();
@@ -359,7 +317,7 @@ public class ColorSensor{
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			return greenTab;
+			return this.greenTab;
 
 		case "BLUE":
 			try {
@@ -379,7 +337,7 @@ public class ColorSensor{
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			return blueTab;
+			return this.blueTab;
 
 		case "YELLOW":
 			try {
@@ -399,7 +357,7 @@ public class ColorSensor{
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			return yellowTab;
+			return this.yellowTab;
 
 		case "WHITE":
 			try {
@@ -419,7 +377,7 @@ public class ColorSensor{
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			return whiteTab;
+			return this.whiteTab;
 
 		case "BLACK":
 			try {
@@ -439,7 +397,7 @@ public class ColorSensor{
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			return blackTab;
+			return this.blackTab;
 
 		case "GREY":
 			try {
@@ -459,7 +417,7 @@ public class ColorSensor{
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			return greyTab;
+			return this.greyTab;
 
 		default:
 			return null;
@@ -675,13 +633,13 @@ public class ColorSensor{
 			}
 			this.max[1] = greenTab[0][1];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[1] > greenTab[i][1]) {
+				if (this.max[1] < greenTab[i][1]) {
 					this.max[1] = greenTab[i][1];
 				}
 			}
 			this.max[2] = greenTab[0][2];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[2] > greenTab[i][2]) {
+				if (this.max[2] < greenTab[i][2]) {
 					this.max[2] = greenTab[i][2];
 				}
 			}
@@ -690,20 +648,20 @@ public class ColorSensor{
 		case "blue":
 			this.max[0] = blueTab[0][0];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[0] > blueTab[i][0]) {
+				if (this.max[0] < blueTab[i][0]) {
 					this.max[0] = blueTab[i][0];
 				}
 			}
 
 			this.max[1] = blueTab[0][1];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[1] > blueTab[i][1]) {
+				if (this.max[1] < blueTab[i][1]) {
 					this.max[1] = blueTab[i][1];
 				}
 			}
 			this.max[2] = blueTab[0][2];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[2] > blueTab[i][2]) {
+				if (this.max[2] < blueTab[i][2]) {
 					this.max[2] = blueTab[i][2];
 				}
 			}
@@ -712,21 +670,21 @@ public class ColorSensor{
 		case "yellow":
 			this.max[0] = yellowTab[0][0];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[0] > yellowTab[i][0]) {
+				if (this.max[0] < yellowTab[i][0]) {
 					this.max[0] = yellowTab[i][0];
 				}
 			}
 
 			this.max[1] = yellowTab[0][1];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[1] > yellowTab[i][1]) {
+				if (this.max[1] < yellowTab[i][1]) {
 					this.max[1] = yellowTab[i][1];
 				}
 			}
 
 			this.max[2] = yellowTab[0][2];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[2] > yellowTab[i][2]) {
+				if (this.max[2] < yellowTab[i][2]) {
 					this.max[2] = yellowTab[i][2];
 				}
 			}
@@ -735,21 +693,21 @@ public class ColorSensor{
 		case "white":
 			this.max[0] = whiteTab[0][0];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[0] > whiteTab[i][0]) {
+				if (this.max[0] < whiteTab[i][0]) {
 					this.max[0] = whiteTab[i][0];
 				}
 			}
 
 			this.max[1] = whiteTab[0][1];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[1] > whiteTab[i][1]) {
+				if (this.max[1] < whiteTab[i][1]) {
 					this.max[1] = whiteTab[i][1];
 				}
 			}
 
 			this.max[2] = whiteTab[0][2];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[2] > whiteTab[i][2]) {
+				if (this.max[2] < whiteTab[i][2]) {
 					this.max[2] = whiteTab[i][2];
 				}
 			}
@@ -758,21 +716,21 @@ public class ColorSensor{
 		case "black":
 			this.max[0] = blackTab[0][0];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[0] > blackTab[i][0]) {
+				if (this.max[0] < blackTab[i][0]) {
 					this.max[0] = blackTab[i][0];
 				}
 			}
 
 			this.max[1] = blackTab[0][1];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[1] > blackTab[i][1]) {
+				if (this.max[1] < blackTab[i][1]) {
 					this.max[1] = blackTab[i][1];
 				}
 			}
 
 			this.max[2] = blackTab[0][2];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[2] > blackTab[i][2]) {
+				if (this.max[2] < blackTab[i][2]) {
 					this.max[2] = blackTab[i][2];
 				}
 			}
@@ -781,21 +739,21 @@ public class ColorSensor{
 		case "grey":
 			this.max[0] = greyTab[0][0];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[0] > greyTab[i][0]) {
+				if (this.max[0] < greyTab[i][0]) {
 					this.max[0] = greyTab[i][0];
 				}
 			}
 
 			this.max[1] = greyTab[0][1];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[1] > greyTab[i][1]) {
+				if (this.max[1] < greyTab[i][1]) {
 					this.max[1] = greyTab[i][1];
 				}
 			}
 
 			this.max[2] = greyTab[0][2];
 			for (int i = 0; i < NBVAL; i++) {
-				if (this.max[2] > greyTab[i][2]) {
+				if (this.max[2] < greyTab[i][2]) {
 					this.max[2] = greyTab[i][2];
 				}
 			}
@@ -826,7 +784,7 @@ public class ColorSensor{
 	public float[] invervalle(float min, float max) {// donne un intervalle élargit des min et max
 		// recuillit
 		float ecart = 0;
-		ecart= max - min;
+		ecart= 1.5f*(max - min);
 		float[] tab = {0,0};
 		tab[0] = min - ecart;
 		tab[1] = max+ ecart;
@@ -856,10 +814,11 @@ public class ColorSensor{
 
 	public boolean estDansLIntervalleRGB(float[] minTab, float[] maxTab) {
 //on utilise la methode estDansLIntervalle et on l'applique a un echantillion
-		this.echantillon();
 		boolean trueFalse = false;
-		for (int i = 0; i < 3; i++) {// car 3 valeurs dans un tableau rgb
-			if (this.estDansLInterval(colorSample[i], minTab[i], maxTab[i])) {
+		// car 3 valeurs dans un tableau rgb
+			if (this.estDansLInterval(colorSample[0], minTab[0], maxTab[0]) &&
+				this.estDansLInterval(colorSample[1], minTab[1], maxTab[1]) &&
+				this.estDansLInterval(colorSample[2], minTab[2], maxTab[2])) {
 				trueFalse = true;
 				//test
 				System.out.println("true");
@@ -870,7 +829,7 @@ public class ColorSensor{
 				System.out.println("false");
 			}
 			//test:
-		}
+		
 		if (trueFalse) {
 			return true;
 		} else
@@ -884,7 +843,7 @@ public class ColorSensor{
 		
 		if (this.estDansLIntervalleRGB(this.min("red"), this.max("red"))) {
 			color = "RED";
-		}/* else if (this.estDansLIntervalleRGB(this.min("green"), this.max("green"))) {
+		} else if (this.estDansLIntervalleRGB(this.min("green"), this.max("green"))) {
 			color = "GREEN";
 		} else if (this.estDansLIntervalleRGB(this.min("blue"), this.max("blue"))) {
 			color = "BLUE";
@@ -894,12 +853,12 @@ public class ColorSensor{
 			color = "BLACK";
 		} else if (this.estDansLIntervalleRGB(this.min("white"), this.max("white"))) {
 			color = "WHITE";
-		} else if (this.estDansLIntervalleRGB(this.min("grey"), this.max("grey"))) {
+		} /*else if (this.estDansLIntervalleRGB(this.min("grey"), this.max("grey"))) {
 			color = "GREY";
-		}
+		}*/
 		else {
 			color= "erreur";
-		}*/
+		}
 
 		System.out.println(color);
 		return color;
@@ -915,3 +874,6 @@ public class ColorSensor{
 		return couleurCourant;
 	}
 }
+
+
+
