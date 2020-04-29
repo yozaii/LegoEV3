@@ -1,5 +1,7 @@
 package real;
 
+import java.io.IOException;
+
 import lejos.hardware.Button;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.port.Port;
@@ -24,6 +26,13 @@ public class Robot {
 		this.touch = new TouchSensor(s1);
 		this.ultrason = new Ultrason();
 		this.go = true;
+		//Les geTabs font une lecture des fichiers avec des valeurs de couleurs.
+		this.getColor().getTabCalibrage("RED");
+		this.getColor().getTabCalibrage("BLUE");
+		this.getColor().getTabCalibrage("GREEN");
+		this.getColor().getTabCalibrage("YELLOW");
+		this.getColor().getTabCalibrage("BLACK");
+		this.getColor().getTabCalibrage("WHITE");
 	}
 	
 	//Getters des objets definis dans les attributs
@@ -175,7 +184,6 @@ public class Robot {
 			this.getColor().colorScan();
 		}
 		while (this.getColor().getCouleurCourant()!="WHITE");
-		Delay.msDelay(500);
 		this.Deposer();
 		
 	}
@@ -227,7 +235,7 @@ public class Robot {
 		    this.getColor().colorScan();//renvoi la couleur
 		    this.getUltrason().DistanceScan();//renvoi la distance entre le robot et le mur.
 		    
-		}while ((!(this.ToucherDeux()) && !(this.getUltrason().DistanceLimit(0.1f)) && (this.getColor().getCouleurCourant()!= "YELLOW" && this.getColor().getCouleurCourant()!= "WHITE"&& this.getColor().getCouleurCourant() != "RED")));//avancer jusqu'a la ligne rougre, jaune ou blanche.
+		}while ((!(this.ToucherDeux()) && !(this.getUltrason().DistanceLimit(0.1f)) && (this.getColor().getCouleurCourant()!= "YELLOW" && this.getColor().getCouleurCourant()!= "WHITE"&& this.getColor().getCouleurCourant() != "ReD")));//avancer jusqu'a la ligne rougre, jaune ou blanche.
 	
 		if ( this.getColor().getCouleurCourant()=="WHITE"){ //si cest le robot est sur la ligne blanche il fait une rotation de 90degres et s'arrete.
 		    this.RotateUntilLinePerp("WHITE", "Left");//Le robot tourne autour de lui meme jusqu'a qu'il capte la couleur blanche.
@@ -274,7 +282,7 @@ public class Robot {
 	    do {
 	            this.getColor().colorScan();//renvoi la couleur
 	            this.getUltrason().DistanceScan();//renvoi la distance entre le robot et le mur.
-	    }while ((!(this.ToucherDeux()) && !(this.getUltrason().DistanceLimit(0.1f)) && (this.getColor().getCouleurCourant()!= "YELLOW" && this.getColor().getCouleurCourant()!= "WHITE"&& this.getColor().getCouleurCourant() != "RED")));
+	    }while ((!(this.ToucherDeux()) && !(this.getUltrason().DistanceLimit(0.1f)) && (this.getColor().getCouleurCourant()!= "YELLOW" && this.getColor().getCouleurCourant()!= "WHITE"&& this.getColor().getCouleurCourant() != "ReD")));
 	    
 	    if(this.ToucherDeux()) {// si le capteur tactile est touche
 	        this.roues.Stop();// le robot sarrete
@@ -320,9 +328,87 @@ public class Robot {
 	    this.getRoues().resetOrrien();	//l'oreintation est reinitialise a 0
 	    
 	}
+	
+	/*Une methode de calibrage pour toutes les couleurs. 5 valeurs pour scanner pour chaque couleur. Voir la classe colorSensor
+	 *pour les methodes setTab/getTabCalibrage */
+	public void Calibrage () throws IOException {
+		System.out.println("Calibrage: Press any button");
+		Button.waitForAnyPress();
+		System.out.println("calibrage vert: 5 valeurs");
+		this.getColor().setTab("green");
+		System.out.println("calibrage bleu: 5 valeurs");
+		this.getColor().setTab("blue");
+		System.out.println("calibrage jaune: 5 valeurs");
+		this.getColor().setTab("yellow");
+		System.out.println("calibrage blanc: 5 valeurs");
+		this.getColor().setTab("white");
+		System.out.println("calibrage noir: 5 valeurs");
+		this.getColor().setTab("black");
+		System.out.println("calibrage rouge: 5 valeurs");
+		this.getColor().setTab("red");
+		this.getColor().getTabCalibrage("RED");
+		this.getColor().getTabCalibrage("BLUE");
+		this.getColor().getTabCalibrage("GREEN");
+		this.getColor().getTabCalibrage("YELLOW");
+		this.getColor().getTabCalibrage("BLACK");
+		this.getColor().getTabCalibrage("WHITE");
+	}
+	
+	//Affichage d'un interface avec un fleche qui pointe sur Jouer
+	public void afficheJouer() {
+		System.out.println();
+		System.out.println();
+		System.out.println("  >Jouer");
+		System.out.println("   Calibrer");
+		System.out.println();
+		System.out.println();
+		System.out.println(" ESCAPE TO EXIT");
+		
+	}
+	
+	//Affichage d'un interface avec un fleche qui pointe sur Calibrer
+	public void afficheCalibrer()	{
+		System.out.println();
+		System.out.println();
+		System.out.println("   Jouer");
+		System.out.println("  >Calibrer");
+		System.out.println();
+		System.out.println();
+		System.out.println(" ESCAPE TO EXIT");
+	}
 
+	public boolean menuCalibJouer() throws IOException {
+		int i =0;
+		boolean exit=false;
+		while (Button.ESCAPE.isUp() && Button.ENTER.isUp()) {//Tant que les boutons ESCAPE et ENTER ne sont pas appuyes.
+			if (i%2==0) {//Si la valeur de i est positif on affiche afficheJouer
+				afficheJouer();
+			}
+			else {//Sinon(i negatif) on affiche afficheCalibrer
+				afficheCalibrer();
+			}
+			Button.waitForAnyPress();//On attend un appuie de bouton
+			if (Button.DOWN.isDown() || Button.UP.isDown()) {//Si le bouton appuye et le bouton en haut ouen bas on incremente i par 1.
+				i++;//L'incrementation de i sert alterner entre afficheJouer et afficheCalibrer pour deplacer la fleche.
+			}
+			else if (Button.ESCAPE.isDown()) {
+				exit = true;//Sinon si le bouton appuye est le bouton escape, exit devient true (voir la suite).
+			}
+		}
+		if (!exit) {//Si !=exit == true, c'est a dire que le bouton ESCAPE n'etait pas appuye
+			if (i%2==1) {//Si la fleche etait sur Calibrer (lorsque i est negatif)
+				this.Calibrage();//On calibre
+			}
+			return true;//On  retourne true
+		}
+		return false;//Si ESCAPE etait appuye on retourne false
+	}
 	
 	
+
+
+
+
 	
 	
 }
