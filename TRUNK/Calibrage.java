@@ -10,17 +10,17 @@ public class Calibrage {
 		Robot robot = new Robot();
 		System.out.println("Press any button");
 		Button.waitForAnyPress();
-		System.out.println("calibrage vert: 5 valeurs");
+		System.out.println("Calibrage vert: 5 valeurs");
 		robot.getColor().setTab("green");
-		System.out.println("calibrage bleu: 5 valeurs");
+		System.out.println("Calibrage bleu: 5 valeurs");
 		robot.getColor().setTab("blue");
-		System.out.println("calibrage jaune: 5 valeurs");
+		System.out.println("Calibrage jaune: 5 valeurs");
 		robot.getColor().setTab("yellow");
-		System.out.println("calibrage blanc: 5 valeurs");
+		System.out.println("Calibrage blanc: 5 valeurs");
 		robot.getColor().setTab("white");
-		System.out.println("calibrage noir: 5 valeurs");
+		System.out.println("Calibrage noir: 5 valeurs");
 		robot.getColor().setTab("black");
-		System.out.println("calibrage rouge: 5 valeurs");
+		System.out.println("Calibrage rouge: 5 valeurs");
 		robot.getColor().setTab("rouge");
 	}
 

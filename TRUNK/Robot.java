@@ -14,7 +14,7 @@ public class Robot {
 	private ColorSensor color;
 	private StockInfo info;
 	private Ultrason ultrason;
-	private boolean go;
+	private boolean go; //sert de "feu vert" pour les méthodes rejoidreLigne() et parcourirLigne() (voir P2)
 	private float speed;	//Cette valeur va modifier les MoveForwardSpeed(float) qui se trouvent dans la classe
 	
 	public Robot () {
@@ -194,14 +194,14 @@ public class Robot {
 			this.getRoues().MoveForwardSpeed(getRoues().getVitesse());
 			this.getColor().colorScan();
 		}
-		while (!(this.ToucherDeux()) && (this.getColor().getCouleurCourant()!= couleur) && Button.ESCAPE.isUp() ); //changed from isDown to isUp, changed from || to &&
+		while (!(this.ToucherDeux()) && (this.getColor().getCouleurCourant()!= couleur) && Button.ESCAPE.isUp() );
 		
 		if(this.ToucherDeux()) {
 			this.roues.Stop();
 			this.getPinces().Close();
 			this.getRoues().RotateToZero();
 			this.StopWhite();
-			this.go = false;
+			this.go = false; 
 		}
 		
 		else if (Button.ESCAPE.isDown()) {

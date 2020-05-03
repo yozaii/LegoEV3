@@ -19,7 +19,7 @@ public class Movement {
 		vitesse = 250f;
 	}
 	
-	//Méthode de mouvement en avant
+	//Méthode pour avancer, vitesse deja fixée
 	public void MoveForward() {
 		float dps = 480f; 		// float degrés de rotation par seconde
 		lMotor.setSpeed(dps);	//vitesse de rotation lMotor = dps
@@ -30,7 +30,7 @@ public class Movement {
 		lMotor.endSynchronization();
 	}
 	
-	//Methode de mouvement en avant avec argument float speed = degrés do rotation par seconde
+	//Methode pour avancer. Prend en argument float speed = rotations par seconde
 	public void MoveForwardSpeed(float speed) {
 		lMotor.setSpeed(speed);	//vitesse de rotation lMotor = speed;
 		rMotor.setSpeed(speed);
@@ -40,7 +40,7 @@ public class Movement {
 		lMotor.endSynchronization();
 	}
 	
-	//Methode de mouvement en avant avec argument deg = le nombre de degre de rotation de chaque roue
+	//Methode pour avancer. Prend en argument deg = au nombre de degre de rotation de chaque roue
 	public void MoveForwardDeg(int deg) {
 		lMotor.startSynchronization();
 		lMotor.rotate(deg);
@@ -51,7 +51,7 @@ public class Movement {
 		
 	}
 	
-	//Methode de mouvement vers l'arriere
+	//Fait reculer le robot
 	public void MoveBackward() {
 		float dps = 480f; 		
 		lMotor.setSpeed(dps);	
@@ -70,7 +70,7 @@ public class Movement {
 		lMotor.endSynchronization();
 	}
 	
-	//Methode de faire une rotation au sens d'aiguille
+	//Methode de faire une rotation au sens des aiguilles d'une montre
 	public void RotateClockwise() {
 		lMotor.setSpeed(200);
 		rMotor.setSpeed(200);
@@ -80,7 +80,7 @@ public class Movement {
 		lMotor.endSynchronization();
 	}
 	
-	//Methode de faire une rotation au sens contraire d'aiguille
+	//Methode pour faire une rotation au sens contraire des aiguilles d'une montre
 	public void RotateCounterClockwise() {
 		lMotor.setSpeed(200);
 		rMotor.setSpeed(200);
@@ -90,8 +90,8 @@ public class Movement {
 		lMotor.endSynchronization();
 	}
 	
-	/*Methode RotateD qui prend en argument un String Direction:"Left" ou "Right" et
-	 *un int degre 90 ou 180. Fait une rotation dans le direction et degre desire.
+	/*La méthode RotateD prend en argument un String Direction("Left" ou "Right") et
+	 *un int degre (90 ou 180). Elle fait une rotation dans le direction et degre desiré.
 	 *Exemple d'appel: RotateD("Left",90) */
 	public void RotateD(String Direction,int deg){
 		lMotor.startSynchronization();
@@ -135,7 +135,7 @@ public class Movement {
 		rMotor.waitComplete();
 	}
 	
-	//Methode pour mouvement en courbe a droite a gauche. Prend la direction desire en argument
+	//Avance en courbe à droite ou à gauche. Prend la direction desirée en argument
 	public void arcDirection(String Direction) {
 		float dps=213;
 		lMotor.startSynchronization();
@@ -183,14 +183,15 @@ public class Movement {
 	public void setVitesse(float vit) {
 		vitesse = vit;
 	}
+	//Fin getters
 	
-	public void RotateToZero(){
+	public void RotateToZero(){//fait tourner le robot jusqu'à que son orientation soit à 0 (que le robot soit face au camp opposé).
 		if (this.getOrrien() == 90) this.RotateD("Left", 90);
 		else if (this.getOrrien()==180) this.RotateD("Right", 180);
 		else if (this.getOrrien()==270) this.RotateD("Right", 90);
 	}
 	
-	public void RotateTo180(){
+	public void RotateTo180(){//fait tourner le robot jusqu'à que son orientation soit à 180.
 		if (this.getOrrien() == 90) this.RotateD("Right", 90);
 		else if (this.getOrrien()==180) this.RotateD("Right", 180);
 		else if (this.getOrrien()==270) this.RotateD("Left", 90);
