@@ -5,9 +5,9 @@ import lejos.hardware.port.Port;
 import lejos.robotics.SampleProvider;
 import lejos.hardware.Button;
         
-public class Ultrason {
-                
-            private EV3UltrasonicSensor ultrason;
+public class Ultrason {// permet de mesurer et renvoyer la distance entre le robot et le mur 
+                // initialisation
+        private EV3UltrasonicSensor ultrason;
         private SampleProvider distanceProvider;
         private float distance;
         private float [] distanceSample;
