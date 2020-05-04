@@ -20,7 +20,7 @@ public class TestScenarioP2 {
 			robot.getColor().colorScan();
 		}while ((!(robot.ToucherDeux())) && (robot.getColor().getCouleurCourant()!= "GREEN" && robot.getColor().getCouleurCourant() != "BLUE"));
 		
-		if(robot.getColor.colorScan() == "GREEN") {// Si c'est VERT:
+		if(robot.getColor().getCouleurCourant() == "GREEN") {// Si c'est VERT:
 			robot.RotateUntilLinePerp("GREEN", "Right");
 			robot.parcourirLigne("GREEN");//on parcour la ligne verte
 			if(robot.getGo()) {
@@ -53,7 +53,7 @@ public class TestScenarioP2 {
 			}
 		}
 		
-		else if (robot.getColor.colorScan()="BLUE") {
+		else if (robot.getColor().getCouleurCourant()=="BLUE") {
 			robot.RotateUntilLinePerp("BLUE", "Right");
 			robot.parcourirLigne("BLUE");//on parcour la ligne verte
 			if(robot.getGo()) {
