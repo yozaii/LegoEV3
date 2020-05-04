@@ -215,16 +215,16 @@ public class Robot {
 	}
 
 	//P2
-	public void parcourirLigne(String couleur) {
+	public void parcourirLigne(String couleur) {// parcours la lingne
 		
 		this.FollowLine(couleur);
-		if(this.getTouch().isPressed())	
+		if(this.getTouch().isPressed())	// si le robot rencontre un palet
 		{
 			this.getRoues().Stop();
 			this.getPinces().Close();;
 			this.roues.RotateToZero();
 			this.StopWhite(); 
-			this.go = false;
+			this.go = false; // go deviens false (sert au scénario p2
 		}
 		
 	}
