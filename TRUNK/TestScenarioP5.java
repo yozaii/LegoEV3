@@ -101,7 +101,7 @@ public class TestScenarioP5 extends Robot {
 			System.out.println("Press any button");
 			Button.waitForAnyPress();	// On attend l'appuie d'un bouton avant de commancer le programme
 			
-			/*	Il y'aura 4 conditions de depart: Ouest-Jaune,Ouest-Rouge,Est-Jaune,Est-Rouge. Ils suivent les memes algorithmes mais avec des parametres different pour chaque cas
+			/*	Il y'aura 6 conditions de depart: Ouest-Jaune,Ouest-Rouge,Ouest-Noire,Est-Jaune,Est-Rouge, et Est-noire. Ils suivent les memes algorithmes mais avec des parametres different pour chaque cas
 			 	L'algorithme sert a prendre le premier palet et l'apporter vers le camp oppose. Apres le depot du premier palet,
 			 	le robot va commencer avec BiggerMethod et le reste du main pour recuperer le reste des palets*/
 			
@@ -109,9 +109,9 @@ public class TestScenarioP5 extends Robot {
 			if (robot.getInfo().getCampDep()=="Ouest") {
 				robot.getRoues().MoveForwardSpeed(robot.getRoues().getVitesse()); //Robot avance
 				do {
-					robot.getColor().colorScan();	//Robot scan le couleur en dessous jusqu'a l'arrive de la ligne de couleur jaune ou rouge
+					robot.getColor().colorScan();	//Robot scan le couleur en dessous jusqu'a l'arrive de la ligne de couleur jaune, rouge, ou noire
 				}
-				while ((robot.getColor().getCouleurCourant()!="YELLOW") && (robot.getColor().getCouleurCourant()!="RED") );
+				while ((robot.getColor().getCouleurCourant()!="YELLOW") && (robot.getColor().getCouleurCourant()!="RED") && (robot.getColor().getCouleurCourant()!="BLACK") );
 				
 				//Condition de depart : Ouest - Jaune
 				if (robot.getColor().getCouleurCourant()=="YELLOW"){ //Si le couleur renconter = jaune
@@ -146,15 +146,33 @@ public class TestScenarioP5 extends Robot {
 					SecondDir = "Left";
 	
 				}
+				
+				//Cas Ouest - Noire
+				else if (robot.getColor().getCouleurCourant()=="BLACK"){ //Si le couleur renconter = noire
+					while(!robot.ToucherDeux()); //Le robot execute cette boucle (et avance) jusqu'a que le capteur tactile est touche.
+					robot.getRoues().Stop(); //Robot s'arrete
+					robot.getPinces().Close();//Et ferme ses pinces
+					robot.getRoues().MoveForwardDeg(700);//Robot avance un peu dans le cas noire (les 2 roues font 700 deg en avant) pour eviter les autres palets lorsque le robot tourne. (noire est au mileu)
+					robot.getRoues().RotateD("Right", 90);//Le robot tourne 90 degre a droite
+					robot.getRoues().MoveForwardSpeed(robot.getRoues().getVitesse());//Et avance
+					do {
+						robot.getUltrason().DistanceScan();
+					}while(!robot.getUltrason().DistanceLimit(0.1f));//Robot continue a avance jusqu'a qu'il soit 10cm (0.1m) du mur
+					robot.getRoues().RotateToZero();//Puis il tourne vers le camp de depart
+					robot.StopWhite();
+					FirstDir = "Left";//La premiere direction que le robot va prendre apres le depot du palet sera vers le gauche. (gauche par rapport a son orientation au debut du programme)
+					SecondDir = "Right";
+	
+				}
 			}
 			
 			//Condition de depart : Est
 			else if (robot.getInfo().getCampDep()=="Est") {
 				robot.getRoues().MoveForwardSpeed(robot.getRoues().getVitesse());//Robot avance
 				do {
-					robot.getColor().colorScan();//Robot scan le couleur en dessous jusqu'a l'arrive de la ligne de couleur jaune ou rouge
+					robot.getColor().colorScan();//Robot scan le couleur en dessous jusqu'a l'arrive de la ligne de couleur jaune,rouge, ou noire
 				}
-				while ((robot.getColor().getCouleurCourant()!="YELLOW") && (robot.getColor().getCouleurCourant()!="RED") );
+				while ((robot.getColor().getCouleurCourant()!="YELLOW") && (robot.getColor().getCouleurCourant()!="RED") && (robot.getColor().getCouleurCourant()!="BLACK") );
 				
 				//Condition de depart : Est - Jaune
 				if (robot.getColor().getCouleurCourant()=="YELLOW"){
@@ -187,6 +205,24 @@ public class TestScenarioP5 extends Robot {
 					robot.StopWhite();
 					FirstDir = "Left";
 					SecondDir = "Right";
+				}
+				
+				//Cas Est - Noire
+				else if (robot.getColor().getCouleurCourant()=="BLACK"){ //Si le couleur renconter = noire
+					while(!robot.ToucherDeux()); //Le robot execute cette boucle (et avance) jusqu'a que le capteur tactile est touche.
+					robot.getRoues().Stop(); //Robot s'arrete
+					robot.getPinces().Close();//Et ferme ses pinces
+					robot.getRoues().MoveForwardDeg(700);//Robot avance un peu dans le cas noire (les 2 roues font 700 degre en avant) pour eviter les autres palets lorsque le robot tourne. (noire est au mileu)
+					robot.getRoues().RotateD("Right", 90);//Le robot tourne 90 degre a droite
+					robot.getRoues().MoveForwardSpeed(robot.getRoues().getVitesse());//Et avance
+					do {
+						robot.getUltrason().DistanceScan();
+					}while(!robot.getUltrason().DistanceLimit(0.1f));//Robot continue a avance jusqu'a qu'il soit 10cm (0.1m) du mur
+					robot.getRoues().RotateToZero();//Puis il tourne vers le camp de depart
+					robot.StopWhite();
+					FirstDir = "Left";//La premiere direction que le robot va prendre apres le depot du palet sera vers le gauche. (gauche par rapport a son orientation au debut du programme)
+					SecondDir = "Right";
+	
 				}
 				
 			}
