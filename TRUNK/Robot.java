@@ -189,7 +189,8 @@ public class Robot {
 	}
 	
 	//P2
-	public void rejoindreLigne(String couleur, String sens) {// permet de rejoindre une ligne d'une certaine couleur, s'il y a une palet le robot l'attrape sinon de tourner sur la ligne
+	public void rejoindreLigne(String couleur, String sens) {
+// permet de rejoindre une ligne d'une certaine couleur, s'il y a un palet le robot l'attrape sinon de tourner sur la ligne
 		do {
 			this.getRoues().MoveForwardSpeed(getRoues().getVitesse());
 			this.getColor().colorScan();
@@ -215,7 +216,8 @@ public class Robot {
 	}
 
 	//P2
-	public void parcourirLigne(String couleur) {// parcours la lingne
+	public void parcourirLigne(String couleur) {
+// parcours la ligne de la couleur mise en argument
 		
 		this.FollowLine(couleur);
 		if(this.getTouch().isPressed())	// si le robot rencontre un palet
@@ -229,55 +231,55 @@ public class Robot {
 		
 	}
 	
-	public void CherchWhite() {// methode qui permet de diriger le robot vers la ligne blanche quel que soit sa position de depart.
+	public void CherchWhite() {// méthode qui permet de diriger le robot vers la ligne blanche quel que soit sa position de départ.
 		this.getRoues().MoveForwardSpeed(this.getRoues().getVitesse());// le robot avance
 		do {
 		    this.getColor().colorScan();//renvoi la couleur
 		    this.getUltrason().DistanceScan();//renvoi la distance entre le robot et le mur.
 		    
-		}while ((!(this.ToucherDeux()) && !(this.getUltrason().DistanceLimit(0.1f)) && (this.getColor().getCouleurCourant()!= "YELLOW" && this.getColor().getCouleurCourant()!= "WHITE"&& this.getColor().getCouleurCourant() != "ReD")));//avancer jusqu'a la ligne rougre, jaune ou blanche.
+		}while ((!(this.ToucherDeux()) && !(this.getUltrason().DistanceLimit(0.1f)) && (this.getColor().getCouleurCourant()!= "YELLOW" && this.getColor().getCouleurCourant()!= "WHITE"&& this.getColor().getCouleurCourant() != "ReD")));//avancer jusqu'a la ligne rouge, jaune ou blanche.
 	
 		if ( this.getColor().getCouleurCourant()=="WHITE"){ //si cest le robot est sur la ligne blanche il fait une rotation de 90degres et s'arrete.
 		    this.RotateUntilLinePerp("WHITE", "Left");//Le robot tourne autour de lui meme jusqu'a qu'il capte la couleur blanche.
-		    this.getRoues().RotateD("Left", 90);//Le robot fait une rotation de 90degres vers la gauche.
+		    this.getRoues().RotateD("Left", 90);//Le robot fait une rotation de 90 degrés vers la gauche.
 		}
 	
-		else if (this.getUltrason().DistanceLimit(0.1f)) {//si le robot capte le mur il fait une rotation de 180degres par la gauche et le programme est recommence.
+		else if (this.getUltrason().DistanceLimit(0.1f)) {//si le robot capte le mur il fait une rotation de 180 degrés par la gauche et le programme est recommence.
 		
 		this.getRoues().RotateD("Left", 180);
 		this.CherchWhite();
 	
 		}
 		else if ( this.getColor().getCouleurCourant()=="YELLOW"){// si le robot est sur la ligne jaune il avance jusqu'a ce que il capte la ligne blanche.
-			this.RotateUntilLinePerp("YELLOW", "Left");//Le robot tourne autour de lui meme jusqu'a qu'il capte la couleur jaune.
+			this.RotateUntilLinePerp("YELLOW", "Left");//Le robot tourne sur lui meme jusqu'à ce qu'il capte la couleur jaune.
 			this.getRoues().MoveForwardSpeed(this.getRoues().getVitesse());//Le robot avance.
 			do {// Le robot renvoi la couleur tant que celle ci n'est pas blanche.
 				this.getColor().colorScan();//renvoi la couleur.
 			}
 			while (this.getColor().getCouleurCourant()!="WHITE");
-			this.RotateUntilLinePerp("WHITE", "Left");//Le robot tourne autour de lui meme jusqu'a qu'il capte la couleur blanche.
+			this.RotateUntilLinePerp("WHITE", "Left");//Le robot tourne sur lui meme jusqu'à ce qu'il capte la couleur blanche.
 		    this.getRoues().RotateD("Left", 90);
 			
 		}
-		else if ( this.getColor().getCouleurCourant()=="RED"){// si cest rouge le robot avance jusqu'a la ligne blanche.
+		else if ( this.getColor().getCouleurCourant()=="RED"){// si c'est rouge le robot avance jusqu'à la ligne blanche.
 				this.RotateUntilLinePerp("RED", "Left");
 				this.getRoues().MoveForwardSpeed(this.getRoues().getVitesse());
 				do {
 					this.getColor().colorScan();
 				}
 				while (this.getColor().getCouleurCourant()!="WHITE");
-				this.RotateUntilLinePerp("WHITE", "Left");//Le robot tourne autour de lui meme jusqu'a qu'il capte la couleur blanche.
+				this.RotateUntilLinePerp("WHITE", "Left");//Le robot tourne sur lui meême jusqu'à ce qu'il capte la couleur blanche.
 			    this.getRoues().RotateD("Left", 90);
 	
 		}
 
-	this.getRoues().resetOrrien();	//l'oreintation est reinitialise a 0
+	this.getRoues().resetOrrien();	//l'orientation est reinitialisée à 0
 
 	}
 	
 
 
-	public void RchrchCamp() {// cette methode permet au robot de se diriger vers le camps de depart, si il rencontre un palet il lattrape et le depose dans le camp oppose.
+	public void RchrchCamp() {// cette méthode permet au robot de se diriger vers le camp de depart, si il rencontre un palet il l'attrape et le dépose dans le camp opposé.
 		this.getRoues().MoveForwardSpeed(this.getRoues().getVitesse());// le robot avance
 	    do {
 	            this.getColor().colorScan();//renvoi la couleur
@@ -294,7 +296,7 @@ public class Robot {
 	    
 	    else if ( this.getColor().getCouleurCourant()=="WHITE"){ //si cest le robot est sur la ligne blanche il fait une rotation de 90degres et s'arrete.
 	    	    this.RotateUntilLinePerp("WHITE", "Left");//Le robot tourne autour de lui meme jusqu'a qu'il capte la couleur blanche.
-	    	    this.getRoues().RotateD("Left", 90);//Le robot fait une rotation de 90degres vers la gauche.
+	    	    this.getRoues().RotateD("Left", 90);//Le robot fait une rotation de 90 degrés vers la gauche.
 	    }
 	    
 	    else if (this.getUltrason().DistanceLimit(0.1f)) {//si le robot capte le mur il fait une rotation de 180degres par la gauche et le programme est recommence.
@@ -302,18 +304,18 @@ public class Robot {
 	    	this.CherchWhite();
 	    	
 	    }
-	    else if ( this.getColor().getCouleurCourant()=="YELLOW"){// si le robot est sur la ligne jaune il avance jusqu'a ce que il capte la ligne blanche.
-	    		this.RotateUntilLinePerp("YELLOW", "Left");//Le robot tourne autour de lui meme jusqu'a qu'il capte la couleur jaune.
+	    else if ( this.getColor().getCouleurCourant()=="YELLOW"){// si le robot est sur la ligne jaune il avance jusqu'à ce que il capte la ligne blanche.
+	    		this.RotateUntilLinePerp("YELLOW", "Left");//Le robot tourne sur lui même jusqu'à ce qu'il capte la couleur jaune.
 	    		this.getRoues().MoveForwardSpeed(this.getRoues().getVitesse());// Le robot avance.
-	    		do {//Le robot renvoi la couleur tant que celle ci n est pas blanche.
+	    		do {//Le robot renvoi la couleur tant que celle-ci n'est pas blanche.
 	    			this.getColor().colorScan();// renvoi la couleur.
 	    		}
 	    		while (this.getColor().getCouleurCourant()!="WHITE");
-	    		this.RotateUntilLinePerp("WHITE", "Left");//Le robot tourne autour de lui meme jusqu'a qu'il capte la couleur blanche.
-	    	    this.getRoues().RotateD("Left", 90);// rotation par la gauche de 90degres.
+	    		this.RotateUntilLinePerp("WHITE", "Left");//Le robot tourne sur lui même jusqu'a qu'il capte la couleur blanche.
+	    	    this.getRoues().RotateD("Left", 90);// rotation par la gauche de 90 degrés.
 	    		
 	    }
-	    else if ( this.getColor().getCouleurCourant()=="RED"){// si la couleur captee est rouge le robot avance jusqua capater la couleur blanche.
+	    else if ( this.getColor().getCouleurCourant()=="RED"){// si la couleur captée est rouge le robot avance jusqu'à capter la couleur blanche.
 	    			this.RotateUntilLinePerp("RED", "Left");
 	    			this.getRoues().MoveForwardSpeed(this.getRoues().getVitesse());
 		    		do {
@@ -325,11 +327,11 @@ public class Robot {
 	   	 
 	    }
 	    
-	    this.getRoues().resetOrrien();	//l'oreintation est reinitialise a 0
+	    this.getRoues().resetOrrien();	//l'orientation est reinitialisée à 0
 	    
 	}
 	
-	/*Une methode de calibrage pour toutes les couleurs. 5 valeurs pour scanner pour chaque couleur. Voir la classe colorSensor
+	/*Une méthode de calibrage pour toutes les couleurs. 5 valeurs doivent être scannées pour chaque couleur. Voir la classe ColorSensor
 	 *pour les methodes setTab/getTabCalibrage */
 	public void Calibrage () throws IOException {
 		System.out.println("Calibrage: Press any button");
@@ -378,6 +380,7 @@ public class Robot {
 	}
 
 	public boolean menuCalibJouer() throws IOException {
+// Menu principal qui laisse le choix entre calibrer le capteur couleur ou lancer le jeu.
 		int i =0;
 		boolean exit=false;
 		while (Button.ESCAPE.isUp() && Button.ENTER.isUp()) {//Tant que les boutons ESCAPE et ENTER ne sont pas appuyes.
