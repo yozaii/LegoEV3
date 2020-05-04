@@ -53,7 +53,7 @@ public class TestScenarioP2 {
 			}
 		}
 		
-		else if (robot.getColor().getCouleurCourant()=="BLUE") {
+		else if (robot.getColor().getCouleurCourant()=="BLUE") {// on fait la meme chose si on tombe sur du bleu
 			robot.RotateUntilLinePerp("BLUE", "Right");
 			robot.parcourirLigne("BLUE");//on parcour la ligne verte
 			if(robot.getGo()) {
