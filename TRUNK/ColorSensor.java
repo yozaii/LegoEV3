@@ -19,17 +19,25 @@ import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.SampleProvider;
 
+
+/**
+ * La classe ColorSensor sert a manipuler le capteur couleur.
+ * 
+ * Les attributs sont:
+ * -colorSensor qui indique le cpateur couleur branché à la brique EV3
+ * -colorProvider qui permet de récupérer des echantillons de couleur.
+ * -colorSample qui stock des valeur d'un echantillon dans un tableau (cette variable sera souvent utilisée dans les méthodes)
+ * -NBVAL qui est une contante qui indique le nombre d'echantillons à prendre pour calibrer le robot
+ * -redTAB, greenTAB, yellowTab etc... Qui sont des tableaux qui serviront à contenir des valeurs RGB dechaque couleur lors ducalibrage
+ */
 public class ColorSensor{
 
 	// Attributs
 	private EV3ColorSensor colorSensor;
 	private SampleProvider colorProvider;
 	private float[] colorSample;
-	private final static int NBVAL = 5;// nombre de valeurs recueillies pour chaque couleurs lors du calibrage
-	private float[][] redTab, greenTab, blueTab, yellowTab, whiteTab, blackTab, greyTab;// tableaux qui serviront à
-																						// contenir des valeurs RGB de
-																						// chaque couleur lors du
-																						// calibrage
+	private final static int NBVAL = 5;
+	private float[][] redTab, greenTab, blueTab, yellowTab, whiteTab, blackTab, greyTab;
 	private float[] min= {0,0,0};
 	private float[] max= {0,0,0};
 	private String couleurCourant;
@@ -60,7 +68,8 @@ public class ColorSensor{
 	}
 
 	// Méthodes
-//affiche les valeurs RGB se trouvant dans le tableau colorSample
+/**Cette méthodes affiche les valeurs RGB se trouvant dans le tableau colorSample
+ */
 	public void ColorTesting() {
 
 		while (Button.ESCAPE.isUp()) {
@@ -74,13 +83,19 @@ public class ColorSensor{
 		colorSensor.close();
 	}
 
-//place les valeurs RGB scannées dans le tableau colorSample, renvoie colorSample	
+/**echantillon() place les valeurs RGB scannées dans le tableau colorSample, 
+ *@return colorSample	
+ */
 	public float[] echantillon() {
 		colorProvider.fetchSample(colorSample, 0);
 		return colorSample;
 	}
 
-// Cette methode prend en argument la couleur que l'on veut calibrer et fait un tableau de NBVAL valeurs RGB + met les valeurs dans un fichier
+/**@param color
+ * 		Prend en argument la couleur que l'on veut calibrer et fait un tableau de NBVAL valeurs RGB + met les valeurs dans un fichier
+ * Renvoie le tableau de la couleur concernée (ex pour "red" => renvoie redTab) 
+ * => la première valeur (R) va dans la première case puis on copie la valeur dans le fichier data, (G) va dans la deuxième, on copie dans data, (B) va dans la troisième, on copie dans data.
+ */
 	public void setTab(String color) throws IOException {
 
 		if (color == "red") {
@@ -270,7 +285,11 @@ public class ColorSensor{
 		}
 	}
 
-// sert a recuperer les valeurs du calibrage a partir du fichier data.txt
+/**sert a recuperer les valeurs du calibrage a partir du fichier data.txt
+ * @param color
+ * choix: redData greenData etc...
+ * @return le tableau correspondant
+ */
 	public float[][] getTabCalibrage(String color) {// choix:  redData greenData etc...
 		Scanner scanner;
 		int iRGB = 0;
@@ -424,7 +443,11 @@ public class ColorSensor{
 		}
 	}
 
-	//cette methode trouve la plus petite valeur pour R, G et B en fonction de la couleur en commentaire	
+	/**cette methode trouve la plus petite valeur pour R, G et B en fonction de la couleur en commentaire	
+	 * @param couleur
+	 * @return un tableau RGB des valeurs minimum pour chaque case
+	 * pour la couleur en paremètre: on parcourt le tableau pour trouver le minimum pour R, G et B séparément
+	 */
 		public float[] min(String couleur) {
 									
 			switch (couleur) {
@@ -591,31 +614,35 @@ public class ColorSensor{
 			}
 			return this.min;
 		}
-
+/** Trouve la plus grande valeur R,G et B pour une couleur mise en parametre
+ * @param couleur
+ * @return un tableau RGB
+ * pour une couleur: on parcourt le tableau en question et on trouve a chaque fois le max pour 
+ * R, le max pour G et le max pour B.
+ */
 	public float[] max(String couleur) {
-		// trouve la plus grande valeur r,G et B pour une couleur mise en parametre
 		float max[] = { 0, 0, 0 }; // vu qu'on ne peut retourner qu'une valeur c'est un tableau RGB qui contiendra
-									// minR,minG et minB;
+									// maxR,maxG et maxB;
 
 		switch (couleur) {
 		case "red":
 			// pour la couleur rouge par exemple on prend les 3 variables et on parcourt le
 			// tableau redTab 3fois
-			// la premiere fois pour trouver le minimum de la valeur rouge
+			// la premiere fois pour trouver le maximum de la valeur rouge
 			this.max[0] = redTab[0][0];
 			for (int i = 0; i < NBVAL; i++) {// parcours le tableau pour touver le maximum
 				if (this.max[0] < redTab[i][0]) {
 					this.max[0] = redTab[i][0];
 				}
 			}
-			// la deuxieme fois pour le minimum de la valeur verte
+			// la deuxieme fois pour le maximum de la valeur verte
 			this.max[1] = redTab[0][1];
 			for (int i = 0; i < NBVAL; i++) {
 				if (this.max[1] < redTab[i][1]) {
 					this.max[1] = redTab[i][1];
 				}
 			}
-			// la 3eme fois pour le minimum de la valeur bleu
+			// la 3eme fois pour le maximum de la valeur bleu
 			this.max[2] = redTab[0][2];
 			for (int i = 0; i < NBVAL; i++) {
 				if (this.max[2] < redTab[i][2]) {
@@ -761,8 +788,12 @@ public class ColorSensor{
 		}
 		return this.max;
 	}
-
-	public float[] invervalle(float min, float max) {// donne un intervalle élargit des min et max
+/** donne un intervalle élargit des min et max
+ * @return tab
+ * @param min et max
+ * élargit l'intervalle pour que la detection des couleurs soit plus correcte, le calcule a été décidé après de nombreux tests.
+ */
+	public float[] invervalle(float min, float max) {
 		// recuillit
 		float ecart = 0;
 		ecart= 3.2f*(max - min);
@@ -771,13 +802,16 @@ public class ColorSensor{
 		tab[1] = max+ ecart;
 		return tab;
 }
-
+/**
+	 * permet de savoir si un nombre se trouve dans l'intervalle selon la definition
+	 * @param val min max
+	 * val: valeur qu'on compare 
+	 * -min:la valeur minimum enregistrée 
+	 * -max:la valeur maximum enregistrée
+	 * @return truefalse
+ */
 	public boolean estDansLInterval(float val, float min, float max) {
-		/*
-		 * permet de savoir si un nombre se trouve dans l'intervalle selon la definition
-		 * de l'intervalle qu'on a donné les argument sont: -une val qui va etre celle
-		 * qu'on compare -la valeur minimum enregistrée -la valeur maximum enregistrqe
-		 */
+		
 		float[] intervalle = this.invervalle(min, max);
 		boolean trueFalse;
 		if (val >= intervalle[0] && val <= intervalle[1]) {
@@ -791,9 +825,11 @@ public class ColorSensor{
 	}
 
 
-
+/**on utilise la methode estDansLIntervalle et on l'applique a un echantillion
+ * @param minTab maxtab
+ * @return trueFalse
+ */
 	public boolean estDansLIntervalleRGB(float[] minTab, float[] maxTab) {
-//on utilise la methode estDansLIntervalle et on l'applique a un echantillion
 		boolean trueFalse = false;
 		// car 3 valeurs dans un tableau rgb
 			if (this.estDansLInterval(colorSample[0], minTab[0], maxTab[0]) &&
@@ -804,7 +840,6 @@ public class ColorSensor{
 			else {
 				trueFalse = false;
 			}
-			//test:
 		
 		if (trueFalse) {
 			return true;
@@ -812,9 +847,10 @@ public class ColorSensor{
 			return false;
 	}
 
+/** permettra d'identifier une couleur en fonction de l'intervalle auquel appartient ses valeurs RGB
+ */
 	public String colorRenvoi() {
 
-//	 permettra d'identifier une couleur en fonction de l'intervalle auquel appartient ses valeurs RGB
 		String color = null;
 		
 		if (this.estDansLIntervalleRGB(this.min("red"), this.max("red"))) {
@@ -839,13 +875,18 @@ public class ColorSensor{
 		System.out.println(color);
 		return color;
 	}
-
-	public String colorScan() {// scan une couleur et retourne la couleur analysée sous forme de String
+/** scanne une couleur et retourne la couleur analysée sous forme de String
+ * @return couleurCourant
+ */
+	public String colorScan() {
 		this.echantillon();
 		couleurCourant = this.colorRenvoi();
 		return couleurCourant;
 	}
 
+/** getter
+
+ */
 	public String getCouleurCourant() {
 		return couleurCourant;
 	}
