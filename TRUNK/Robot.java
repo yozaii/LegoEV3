@@ -7,6 +7,11 @@ import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.port.Port;
 import lejos.utility.Delay;
 
+/**
+ * La classe robot regroupe les méthodes qui nécéssites plusieurs parties du robot à la fois afin que le code soit plus organisé
+ * Elle récupère donc dans cest attribut un objet par capteur/moteur pour pouvoir les manipuler.
+ * go sert de "feu vert" pour les méthodes rejoidreLigne() et parcourirLigne() (voir P2).
+ */
 public class Robot {
 	private Movement roues;
 	private Pinces pinces;
@@ -14,7 +19,7 @@ public class Robot {
 	private ColorSensor color;
 	private StockInfo info;
 	private Ultrason ultrason;
-	private boolean go; //sert de "feu vert" pour les méthodes rejoidreLigne() et parcourirLigne() (voir P2)
+	private boolean go; 
 	private float speed;	//Cette valeur va modifier les MoveForwardSpeed(float) qui se trouvent dans la classe
 	
 	public Robot () {
@@ -72,8 +77,10 @@ public class Robot {
 	}
 
 	
-	/*Une méthode ToucherDeux booléenne qui renvoie vrai si le capteur tactile
-	est touché, et reste touché pour 50ms*/
+	/**Une méthode ToucherDeux booléenne qui renvoie vrai si le capteur tactile
+	est touché, et reste touché pour 50ms
+	@return true ou false
+	*/
 	public boolean ToucherDeux(){ 
 		boolean t1 = false;
 		boolean t2 = false;
@@ -91,8 +98,13 @@ public class Robot {
 		
 	
 	}
-	
-	public void Attrape() { //Méthode attraper
+
+/**Sert à attraper
+ * on entre dans une boucle pour vérifier la valeur de toucherDeux 
+ * Tant qu'il est faux, on continue, 
+ * lorsqu'il devient vrai le robot s'arette et ferme les pinces
+ */
+	public void Attrape() {
 		boolean b;	//Un booleen qui va prendre la valeur de la methode ToucherDeux
 		do {
 			b=this.ToucherDeux(); //Une boucle pour verifier a tout moment la valeur de ToucherDeux
@@ -109,9 +121,16 @@ public class Robot {
 		Delay.msDelay(500);	//Le robot recule pour 500ms
 		this.roues.RotateD("Right",180);	//Robot fait un demi-tour
 	}
-	
-	//Une methode ou le Robot tourne autour de lui-meme jusqu'a qu'il capte le couleur passe en argument
-	//Ce methode marche que si on est perpendiculaire au couleur desire
+	leur de ToucherDeux
+}
+while (b!=true);	//Tant que ToucherDeux est faux, on continue la boucle
+this.roues.Stop();	//Si ToucherDeux est vrai, le Robot s'arrete
+pinces.Close();	//Les pinces ferment
+
+	/**Une methode ou le Robot tourne autour de lui-meme jusqu'a qu'il capte le couleur passe en argument
+	Cette methode marche que si on est perpendiculaire au couleur desire
+	 * 
+	 */
 	public void RotateUntilLinePerp(String Color, String Direction) {	//Argument Color pour choisir couleur desire, et Direction pour choisir la direction de rotation
 		this.getRoues().Stop();
 		this.getRoues().MoveForwardDeg(150);
@@ -137,7 +156,11 @@ public class Robot {
 		}
 	}
 	
-	public void RotateUntilLine(String Color, String Direction) {	//Argument Color pour choisir couleur desire, et Direction pour choisir la direction de rotation
+/**@param Color pour choisir couleur desire
+ * @param Direction pour choisir la direction de rotation
+ * 
+ */
+	public void RotateUntilLine(String Color, String Direction) {	
 		
 		if(Direction=="Left"){
 			this.getRoues().RotateCounterClockwise();
@@ -160,8 +183,10 @@ public class Robot {
 		}
 	}
 	
-	/*Methode followline avec un string couleur en argument.
-	 Le Robot suit cette couleur tant que le capteur tactile n'est pas touche*/
+	/**Methode followline.
+	 * @param followcollor
+	 Le Robot suit cette couleur tant que le capteur tactile n'est pas touche
+	 */
 	public void FollowLine(String followcollor) {
 		do {
 			this.ultrason.DistanceScan();
@@ -189,8 +214,11 @@ public class Robot {
 	}
 	
 	//P2
+	
+/** permet de rejoindre une ligne d'une certaine couleur, s'il y a un palet le robot l'attrape sinon de tourner sur la ligne
+ * @param couleur, sens 
+ */
 	public void rejoindreLigne(String couleur, String sens) {
-// permet de rejoindre une ligne d'une certaine couleur, s'il y a un palet le robot l'attrape sinon de tourner sur la ligne
 		do {
 			this.getRoues().MoveForwardSpeed(getRoues().getVitesse());
 			this.getColor().colorScan();
@@ -216,8 +244,12 @@ public class Robot {
 	}
 
 	//P2
+	
+/** Parcours la ligne de la couleur mise en argument
+ * @param couleur
+ * Suit une ligne tant qu'il n'y a pas de palet on avance si on rencontre un palet on attrape on se tourne vers le camps adverse et on change la valeur de go pour bloquer l'algorithme.
+ */
 	public void parcourirLigne(String couleur) {
-// parcours la ligne de la couleur mise en argument
 		
 		this.FollowLine(couleur);
 		if(this.getTouch().isPressed())	// si le robot rencontre un palet
@@ -231,7 +263,11 @@ public class Robot {
 		
 	}
 	
-	public void CherchWhite() {// méthode qui permet de diriger le robot vers la ligne blanche quel que soit sa position de départ.
+	
+/** méthode qui permet de diriger le robot vers la ligne blanche quel que soit sa position de départ.
+ * 
+ */
+	public void CherchWhite() {
 		this.getRoues().MoveForwardSpeed(this.getRoues().getVitesse());// le robot avance
 		do {
 		    this.getColor().colorScan();//renvoi la couleur
@@ -331,7 +367,7 @@ public class Robot {
 	    
 	}
 	
-	/*Une méthode de calibrage pour toutes les couleurs. 5 valeurs doivent être scannées pour chaque couleur. Voir la classe ColorSensor
+	/**Une méthode de calibrage pour toutes les couleurs. 5 valeurs doivent être scannées pour chaque couleur. Voir la classe ColorSensor
 	 *pour les methodes setTab/getTabCalibrage */
 	public void Calibrage () throws IOException {
 		System.out.println("Calibrage: Press any button");
@@ -356,7 +392,8 @@ public class Robot {
 		this.getColor().getTabCalibrage("WHITE");
 	}
 	
-	//Affichage d'un interface avec un fleche qui pointe sur Jouer
+	/**Affichage d'un interface avec un fleche qui pointe sur Jouer
+	 */
 	public void afficheJouer() {
 		System.out.println();
 		System.out.println();
@@ -368,7 +405,8 @@ public class Robot {
 		
 	}
 	
-	//Affichage d'un interface avec un fleche qui pointe sur Calibrer
+	/**Affichage d'un interface avec un fleche qui pointe sur Calibrer
+	 */
 	public void afficheCalibrer()	{
 		System.out.println();
 		System.out.println();
@@ -379,8 +417,11 @@ public class Robot {
 		System.out.println(" ESCAPE TO EXIT");
 	}
 
+/**Menu principal qui laisse le choix entre calibrer le capteur couleur ou lancer le jeu.
+ * 
+ */
 	public boolean menuCalibJouer() throws IOException {
-// Menu principal qui laisse le choix entre calibrer le capteur couleur ou lancer le jeu.
+
 		int i =0;
 		boolean exit=false;
 		while (Button.ESCAPE.isUp() && Button.ENTER.isUp()) {//Tant que les boutons ESCAPE et ENTER ne sont pas appuyes.
