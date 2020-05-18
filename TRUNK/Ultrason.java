@@ -4,7 +4,15 @@ import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.port.Port;
 import lejos.robotics.SampleProvider;
 import lejos.hardware.Button;
-        
+/** La classe Ultason permet de mesurer et renvoyer la distance separant le robot et le mur
+ * Les attributs sont:
+ * distance renvoi la distance final
+ * distancesSample  renvoi la distance initial
+ * distanceProvider renvoi la  distance scannee
+
+ * 
+*/
+ 
 public class Ultrason {// permet de mesurer et renvoyer la distance entre le robot et le mur 
                 // initialisation
         private EV3UltrasonicSensor ultrason;
