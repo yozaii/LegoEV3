@@ -121,11 +121,6 @@ public class Robot {
 		Delay.msDelay(500);	//Le robot recule pour 500ms
 		this.roues.RotateD("Right",180);	//Robot fait un demi-tour
 	}
-	leur de ToucherDeux
-}
-while (b!=true);	//Tant que ToucherDeux est faux, on continue la boucle
-this.roues.Stop();	//Si ToucherDeux est vrai, le Robot s'arrete
-pinces.Close();	//Les pinces ferment
 
 	/**Une methode ou le Robot tourne autour de lui-meme jusqu'a qu'il capte le couleur passe en argument
 	Cette methode marche que si on est perpendiculaire au couleur desire
